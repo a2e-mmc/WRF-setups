@@ -30,10 +30,8 @@ MAX_DOM="2"
 # DOMAIN CONFIG (default: "")
 DOM_STR=""
 # REANALYSIS TO USE (ERA, NARR, GFS, ERA5)
-REAN_STR="ERA5" 
+REAN_STR="GFS" 
 
-# LOCATION OF THE DIRECTORY WITH THE TEMPLATES
-HOME_DIR="$HOME/WRF/wrf_${CASE_STR}"
 # LOCATION OF WPS EXECUTABLES
 WPS_DIR="$HOME/WRF/WRFV4.1/WPS"
 # LOCATION OF WHERE TO DOWNLOAD REANALYSIS DATA
@@ -74,9 +72,9 @@ cd $ICBC_DIR
 pwd
 
 if [ $REAN_STR == "NARR" ]; then
-    sed "s/SETPASSWD/nrel1234/g" $HOME_DIR/get_narr_constants.csh > get_narr_constants.csh
+    sed "s/SETPASSWD/nrel1234/g" templates/get_narr_constants.csh > get_narr_constants.csh
     ./get_narr_constants.csh
-    echo "Use $HOME_DIR/get_narr.csh to download necessary files"
+    echo "Use templates/get_narr.csh to download necessary files"
 fi
 days_of_simulation=$(( nhours / 24 + 1))
 counter="0"
@@ -87,7 +85,7 @@ do
     mm=$(echo $sim_day | cut -f2 -d-)
     dd=$(echo $sim_day | cut -f3 -d-)
     if [ $REAN_STR == "ERA" ]; then
-        sed "s/SETPASSWD/nrel1234/g" $HOME_DIR/get_erai_template.csh > get_erai1.csh
+        sed "s/SETPASSWD/nrel1234/g" templates/get_erai_template.csh > get_erai1.csh
         sed "s/DD1/$dd/g" get_erai1.csh > get_erai2.csh && rm get_erai1.csh 
         sed "s/MM1/$mm/g" get_erai2.csh > get_erai3.csh && rm get_erai2.csh 
         sed "s/YY1/$yy/g" get_erai3.csh > get_erai.csh && rm get_erai3.csh 
@@ -95,9 +93,8 @@ do
         ./get_erai.csh
         cp get_erai.csh get_erai.csh_${CASE_STR}_$counter
     elif [ $REAN_STR == "GFS" ]; then
-        echo $HOME_DIR
-        cp $HOME_DIR/get_gfs_template.csh .
-        sed "s/SETPASSWD/nrel1234/g" $HOME_DIR/get_gfs_template.csh > get_gfs1.csh
+        cp templates/get_gfs_template.csh .
+        sed "s/SETPASSWD/nrel1234/g" templates/get_gfs_template.csh > get_gfs1.csh
         sed "s/YY1/$yy/g" get_gfs1.csh > get_gfs2.csh && rm get_gfs1.csh 
         sed "s/MM1/$mm/g" get_gfs2.csh > get_gfs3.csh && rm get_gfs2.csh 
         sed "s/DD1/$dd/g" get_gfs3.csh > get_gfs.csh && rm get_gfs3.csh 
@@ -187,7 +184,7 @@ if [ ! -f met_em.d0$MAX_DOM.$END_DATE.nc ]; then
     elif [ $REAN_STR = "NARR" ]; then
         ./link_grib.csh $ICBC_DIR/rr-fixed* .
         mv namelist.wps namelist.wps_full
-        cp $HOME_DIR/namelist.narr.constants namelist.wps
+        cp templates/namelist.narr.constants namelist.wps
         ./ungrib.exe
         mv namelist.wps_full namelist.wps
         ./link_grib.csh $ICBC_DIR/NARR* .
@@ -216,8 +213,8 @@ fi
 #======================================================================
 #======================================================================
 
-cp $HOME_DIR/namelist.input.template_$REAN_STR namelist.input
-echo $HOME_DIR/namelist.input.template_$REAN_STR
+cp templates/namelist.input.template_$REAN_STR namelist.input
+echo "Using templates/namelist.input.template_$REAN_STR"
 sed "s/YY1/$yyS/g" namelist.input > namelist.input_Y
 sed "s/MM1/$mmS/g" namelist.input_Y > namelist.input_M && rm namelist.input_Y
 sed "s/DD1/$ddS/g" namelist.input_M > namelist.input_D && rm namelist.input_M
@@ -231,8 +228,6 @@ sed "s/HH2/$hhE/g" namelist.input_D > namelist.input && rm namelist.input_D
 ln -sf $EXE_DIR/[aBbCcEGgHikLmopRStUV]* .
 ln -sf $EXE_DIR/real.exe .
 ln -sf $EXE_DIR/wrf.exe .
-cp $HOME_DIR/myoutfields.txt .
-cp $HOME_DIR/tslist .
 
 dirs_to_create=( auxout rsl wrfout towers wrfrst )
 for dir in "${dirs_to_create[@]}" ; do
@@ -240,11 +235,9 @@ for dir in "${dirs_to_create[@]}" ; do
     fi
 done
 
-cp $HOME_DIR/submit_real* .
-cp $HOME_DIR/submit_wrf* .
-
-sed "s/REAN/$REAN_STR/g" submit_wrf_template.sh > submit_wrf_rean.sh
-sed "s/YY1MM1DD1/$yyS$mmS$ddS/g" submit_wrf_rean.sh > submit_wrf.sh && rm submit_wrf_rean.sh
+cp templates/submit_real.sh .
+sed "s/REAN/$REAN_STR/g" templates/submit_wrf_template.sh > submit_wrf.sh
+sed -i "s/YY1MM1DD1/$yyS$mmS$ddS/g" submit_wrf.sh
 
 #sbatch submit_real.sh
 #sbatch submit_wrf.sh
