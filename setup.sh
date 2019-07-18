@@ -45,10 +45,15 @@ OUT_DIR="/scratch/$USER/WRF/${CASE_STR}_$yyS$mmS$ddS$hhS"
 #===========================================================#
 
 # If directory doesn't exist, create it.
-if [ ! -d $OUT_DIR ]; then mkdir $OUT_DIR
+if [ ! -d $ICBC_DIR ]; then
+    mkdir -p $ICBC_DIR
+fi
+if [ ! -d $OUT_DIR ]; then
+    mkdir -p $OUT_DIR
 fi
 OUT_DIR="$OUT_DIR/$REAN_STR"
-if [ ! -d $OUT_DIR ]; then mkdir $OUT_DIR
+if [ ! -d $OUT_DIR ]; then
+    mkdir -p $OUT_DIR
 fi
 
 # Calculate the end date...
