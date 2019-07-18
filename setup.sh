@@ -31,15 +31,15 @@ MAX_DOM="2"
 REAN_STR="ERA5" 
 
 # LOCATION OF THE DIRECTORY WITH THE TEMPLATES
-HOME_DIR="/home/phawbeck/WRF/wrf_$CASE_STR"
+HOME_DIR="$HOME/WRF/wrf_${CASE_STR}"
 # LOCATION OF WPS EXECUTABLES
-WPS_DIR="/home/phawbeck/WRF/WRFV4.1/WPS"
+WPS_DIR="$HOME/WRF/WRFV4.1/WPS"
 # LOCATION OF WHERE TO DOWNLOAD REANALYSIS DATA
-ICBC_DIR="/scratch/phawbeck/WRF/ICBC"
+ICBC_DIR="/scratch/$USER/WRF/ICBC"
 # LOCATION OF WRF EXECUTABLES
-EXE_DIR="/home/phawbeck/WRF/WRFV4.1/WRF_Tendencies/run"
+EXE_DIR="$HOME/WRF/WRFV4.1/WRF_Tendencies/run"
 # LOCATION TO RUN WPS/WRF
-OUT_DIR="/scratch/phawbeck/WRF/$CASE_STR""_$yyS$mmS$ddS$hhS"
+OUT_DIR="/scratch/$USER/WRF/${CASE_STR}_$yyS$mmS$ddS$hhS"
 
 # - - - - - - - - - END USER SETTINGS - - - - - - - - - - - #
 #===========================================================#
@@ -86,7 +86,7 @@ do
         sed "s/YY1/$yy/g" get_erai3.csh > get_erai.csh && rm get_erai3.csh 
         chmod 777 get_erai.csh
         ./get_erai.csh
-        cp get_erai.csh get_erai.csh_$CASE_STR"_"$counter
+        cp get_erai.csh get_erai.csh_${CASE_STR}_$counter
     elif [ $REAN_STR == "GFS" ]; then
         echo $HOME_DIR
         cp $HOME_DIR/get_gfs_template.csh .
@@ -96,7 +96,7 @@ do
         sed "s/DD1/$dd/g" get_gfs3.csh > get_gfs.csh && rm get_gfs3.csh 
         chmod 777 get_gfs.csh
         ./get_gfs.csh
-        cp get_gfs.csh get_gfs.csh_$CASE_STR"_"$counter
+        cp get_gfs.csh get_gfs.csh_${CASE_STR}_$counter
     elif [ $REAN_STR == "NARR" ]; then
         echo "You may need to download the data manually... see get_narr_template.csh for details"
         echo "Do you want to continue? (y/n)"
@@ -126,7 +126,7 @@ echo "Finished downloading ICBC data."
 #======================================================================
 cd $OUT_DIR
 cp $HOME_DIR/namelist.wps.template namelist.wps
-sed "s/START_DATE/$yyS-$mmS-$ddS""_$hhS:00:00/g" namelist.wps > namelist.wps_S
+sed "s/START_DATE/${yyS}-${mmS}-${ddS}_${hhS}:00:00/g" namelist.wps > namelist.wps_S
 sed "s/END_DATE/$END_DATE/g" namelist.wps_S > namelist.wps_E && rm namelist.wps_S
 sed "s/FIELD/$REAN_STR/g" namelist.wps_E > namelist.wps && rm namelist.wps_E
 
