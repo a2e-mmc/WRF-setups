@@ -42,6 +42,13 @@ EXE_DIR="$HOME/WRF/WRFV4.1/WRF_Tendencies/run"
 # LOCATION TO RUN WPS/WRF
 OUT_DIR="/scratch/$USER/WRF/${CASE_STR}_$yyS$mmS$ddS$hhS"
 
+# SETUP COMPUTING ENVIRONMENT
+module purge
+module load netcdf
+module load netcdf-fortran
+module load libpng
+module load zlib
+
 # - - - - - - - - - END USER SETTINGS - - - - - - - - - - - #
 #===========================================================#
 
@@ -81,7 +88,6 @@ read emailaddr
 echo -n "RDA password: "
 read -s passwd
 
-
 if [ $REAN_STR == "NARR" ]; then
     sed "s/SETPASSWD/$passwd/g" $TEMPLATE_DIR/get_narr_constants.csh > get_narr_constants.csh
     sed -i "s/MY.EMAIL@asdf.com/$emailaddr/g" get_narr_constants.csh
@@ -106,7 +112,6 @@ do
         ./get_erai.csh && rm get_erai.csh
         #cp get_erai.csh get_erai.csh_${CASE_STR}_$counter
     elif [ $REAN_STR == "GFS" ]; then
-        cp $TEMPLATE_DIR/get_gfs_template.csh .
         sed "s/SETPASSWD/$passwd/g" $TEMPLATE_DIR/get_gfs_template.csh > get_gfs.csh
         sed -i "s/MY.EMAIL@asdf.com/$emailaddr/g" get_gfs.csh
         sed -i "s/YY1/$yy/g" get_gfs.csh
@@ -165,15 +170,6 @@ fi
 ln -sf $WPS_DIR/geogrid/GEOGRID.TBL geogrid/.
 ln -sf $WPS_DIR/metgrid/METGRID.TBL metgrid/.
 
-module purge
-module load intel-mpi/2018.0.3
-module load netcdf-c/4.6.2/intel-18.0.3-mpi
-module load netcdf-f/4.4.4
-module load wrf/3.9.1
-module load hdf5/1.10.4/intel1803-impi 
-export NETCDF=$NETCDF_FORTRAN
-export HDF5=$HDF5_ROOT_DIR 
-
 cp $WPS_DIR/link_grib.csh .
 if [ $REAN_STR == "ERA" ]; then
     ln -sf $WPS_DIR/ungrib/Variable_Tables/Vtable.ERA-interim.pl Vtable
@@ -187,7 +183,8 @@ else
     echo "I don't know which Vtable to use..."
 fi
 
-if [ ! -f geo_em.d0$MAX_DOM.nc ]; then ./geogrid.exe
+if [ ! -f geo_em.d0$MAX_DOM.nc ]; then
+    ./geogrid.exe
 fi
 
 if [ ! -f met_em.d0$MAX_DOM.$END_DATE.nc ]; then
