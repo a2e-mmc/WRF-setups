@@ -44,10 +44,13 @@ OUT_DIR="/scratch/$USER/WRF/${CASE_STR}_$yyS$mmS$ddS$hhS"
 
 # SETUP COMPUTING ENVIRONMENT
 module purge
-module load netcdf
-module load netcdf-fortran
-module load libpng
-module load zlib
+module load intel-mpi/2018.0.3
+module load netcdf-c/4.6.2/intel-18.0.3-mpi
+module load netcdf-f/4.4.4
+module load wrf/3.9.1
+module load hdf5/1.10.4/intel1803-impi
+export NETCDF=$NETCDF_FORTRAN
+export HDF5=$HDF5_ROOT_DIR
 
 # - - - - - - - - - END USER SETTINGS - - - - - - - - - - - #
 #===========================================================#
