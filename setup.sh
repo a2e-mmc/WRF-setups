@@ -1,4 +1,5 @@
 #!/bin/bash
+set -e
 #===========================================================#
 #                                                           #
 # This script needs the namelist.wps.template to be editted #
@@ -65,6 +66,7 @@ yyE=$(date -d "$END_DATE_STR" +%Y)
 mmE=$(date -d "$END_DATE_STR" +%m)
 ddE=$(date -d "$END_DATE_STR" +%d)
 hhE=$(date -d "$END_DATE_STR" +%H)
+
 #======================================================================
 #======================================================================
 #                    Get all of the ICBC data...
@@ -73,9 +75,17 @@ hhE=$(date -d "$END_DATE_STR" +%H)
 cd $ICBC_DIR
 pwd
 
+echo -n "RDA email address: "
+read emailaddr
+
+echo -n "RDA password: "
+read -s passwd
+
+
 if [ $REAN_STR == "NARR" ]; then
-    sed "s/SETPASSWD/nrel1234/g" $TEMPLATE_DIR/get_narr_constants.csh > get_narr_constants.csh
-    ./get_narr_constants.csh
+    sed "s/SETPASSWD/$passwd/g" $TEMPLATE_DIR/get_narr_constants.csh > get_narr_constants.csh
+    sed -i "s/MY.EMAIL@asdf.com/$emailaddr/g" get_narr_constants.csh
+    ./get_narr_constants.csh && rm get_narr_constants.csh
     echo "Use templates/get_narr.csh to download necessary files"
 fi
 days_of_simulation=$(( nhours / 24 + 1))
@@ -87,22 +97,24 @@ do
     mm=$(echo $sim_day | cut -f2 -d-)
     dd=$(echo $sim_day | cut -f3 -d-)
     if [ $REAN_STR == "ERA" ]; then
-        sed "s/SETPASSWD/nrel1234/g" $TEMPLATE_DIR/get_erai_template.csh > get_erai1.csh
-        sed "s/DD1/$dd/g" get_erai1.csh > get_erai2.csh && rm get_erai1.csh 
-        sed "s/MM1/$mm/g" get_erai2.csh > get_erai3.csh && rm get_erai2.csh 
-        sed "s/YY1/$yy/g" get_erai3.csh > get_erai.csh && rm get_erai3.csh 
-        chmod 777 get_erai.csh
-        ./get_erai.csh
-        cp get_erai.csh get_erai.csh_${CASE_STR}_$counter
+        sed "s/SETPASSWD/$passwd/g" $TEMPLATE_DIR/get_erai_template.csh > get_erai.csh
+        sed -i "s/MY.EMAIL@asdf.com/$emailaddr/g" get_erai.csh
+        sed -i "s/DD1/$dd/g" get_erai.csh
+        sed -i "s/MM1/$mm/g" get_erai.csh
+        sed -i "s/YY1/$yy/g" get_erai.csh
+        chmod u+x get_erai.csh
+        ./get_erai.csh && rm get_erai.csh
+        #cp get_erai.csh get_erai.csh_${CASE_STR}_$counter
     elif [ $REAN_STR == "GFS" ]; then
         cp $TEMPLATE_DIR/get_gfs_template.csh .
-        sed "s/SETPASSWD/nrel1234/g" $TEMPLATE_DIR/get_gfs_template.csh > get_gfs1.csh
-        sed "s/YY1/$yy/g" get_gfs1.csh > get_gfs2.csh && rm get_gfs1.csh 
-        sed "s/MM1/$mm/g" get_gfs2.csh > get_gfs3.csh && rm get_gfs2.csh 
-        sed "s/DD1/$dd/g" get_gfs3.csh > get_gfs.csh && rm get_gfs3.csh 
-        chmod 777 get_gfs.csh
-        ./get_gfs.csh
-        cp get_gfs.csh get_gfs.csh_${CASE_STR}_$counter
+        sed "s/SETPASSWD/$passwd/g" $TEMPLATE_DIR/get_gfs_template.csh > get_gfs.csh
+        sed -i "s/MY.EMAIL@asdf.com/$emailaddr/g" get_gfs.csh
+        sed -i "s/YY1/$yy/g" get_gfs.csh
+        sed -i "s/MM1/$mm/g" get_gfs.csh
+        sed -i "s/DD1/$dd/g" get_gfs.csh
+        chmod u+x get_gfs.csh
+        ./get_gfs.csh && rm get_gfs.csh
+        #cp get_gfs.csh get_gfs.csh_${CASE_STR}_$counter
     elif [ $REAN_STR == "NARR" ]; then
         echo "You may need to download the data manually... see get_narr_template.csh for details"
         echo "Do you want to continue? (y/n)"
