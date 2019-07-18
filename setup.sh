@@ -27,6 +27,8 @@ ddS="08"
 hhS="00"
 # NUMBER OF DOMAINS TO USE
 MAX_DOM="2"
+# DOMAIN CONFIG (default: "")
+DOM_STR=""
 # REANALYSIS TO USE (ERA, NARR, GFS, ERA5)
 REAN_STR="ERA5" 
 
@@ -129,8 +131,15 @@ echo "Finished downloading ICBC data."
 #                               Run WPS               
 #======================================================================
 #======================================================================
+
+WPS_TEMPLATE=templates/namelist.wps.template
+if [ -n "$DOM_STR" ]; then
+    # append DOM_STR
+    WPS_TEMPLATE="${WPS_TEMPLATE}.${DOM_STR}"
+fi
+
 cd $OUT_DIR
-cp $HOME_DIR/namelist.wps.template namelist.wps
+cp $WPS_TEMPLATE namelist.wps
 sed "s/START_DATE/${yyS}-${mmS}-${ddS}_${hhS}:00:00/g" namelist.wps > namelist.wps_S
 sed "s/END_DATE/$END_DATE/g" namelist.wps_S > namelist.wps_E && rm namelist.wps_S
 sed "s/FIELD/$REAN_STR/g" namelist.wps_E > namelist.wps && rm namelist.wps_E
