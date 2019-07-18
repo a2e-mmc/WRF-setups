@@ -56,6 +56,8 @@ if [ ! -d $OUT_DIR ]; then
     mkdir -p $OUT_DIR
 fi
 
+TEMPLATE_DIR="`pwd`/templates"
+
 # Calculate the end date...
 END_DATE=$(date -d "$yyS-$mmS-$ddS + $nhours hours" +%Y-%m-%d_%H:%M:%S)
 END_DATE_STR=$(echo $END_DATE | tr _ " ")
@@ -72,7 +74,7 @@ cd $ICBC_DIR
 pwd
 
 if [ $REAN_STR == "NARR" ]; then
-    sed "s/SETPASSWD/nrel1234/g" templates/get_narr_constants.csh > get_narr_constants.csh
+    sed "s/SETPASSWD/nrel1234/g" $TEMPLATE_DIR/get_narr_constants.csh > get_narr_constants.csh
     ./get_narr_constants.csh
     echo "Use templates/get_narr.csh to download necessary files"
 fi
@@ -85,7 +87,7 @@ do
     mm=$(echo $sim_day | cut -f2 -d-)
     dd=$(echo $sim_day | cut -f3 -d-)
     if [ $REAN_STR == "ERA" ]; then
-        sed "s/SETPASSWD/nrel1234/g" templates/get_erai_template.csh > get_erai1.csh
+        sed "s/SETPASSWD/nrel1234/g" $TEMPLATE_DIR/get_erai_template.csh > get_erai1.csh
         sed "s/DD1/$dd/g" get_erai1.csh > get_erai2.csh && rm get_erai1.csh 
         sed "s/MM1/$mm/g" get_erai2.csh > get_erai3.csh && rm get_erai2.csh 
         sed "s/YY1/$yy/g" get_erai3.csh > get_erai.csh && rm get_erai3.csh 
@@ -93,8 +95,8 @@ do
         ./get_erai.csh
         cp get_erai.csh get_erai.csh_${CASE_STR}_$counter
     elif [ $REAN_STR == "GFS" ]; then
-        cp templates/get_gfs_template.csh .
-        sed "s/SETPASSWD/nrel1234/g" templates/get_gfs_template.csh > get_gfs1.csh
+        cp $TEMPLATE_DIR/get_gfs_template.csh .
+        sed "s/SETPASSWD/nrel1234/g" $TEMPLATE_DIR/get_gfs_template.csh > get_gfs1.csh
         sed "s/YY1/$yy/g" get_gfs1.csh > get_gfs2.csh && rm get_gfs1.csh 
         sed "s/MM1/$mm/g" get_gfs2.csh > get_gfs3.csh && rm get_gfs2.csh 
         sed "s/DD1/$dd/g" get_gfs3.csh > get_gfs.csh && rm get_gfs3.csh 
@@ -129,7 +131,7 @@ echo "Finished downloading ICBC data."
 #======================================================================
 #======================================================================
 
-WPS_TEMPLATE=templates/namelist.wps.template
+WPS_TEMPLATE="$TEMPLATE_DIR/namelist.wps.template"
 if [ -n "$DOM_STR" ]; then
     # append DOM_STR
     WPS_TEMPLATE="${WPS_TEMPLATE}.${DOM_STR}"
@@ -184,7 +186,7 @@ if [ ! -f met_em.d0$MAX_DOM.$END_DATE.nc ]; then
     elif [ $REAN_STR = "NARR" ]; then
         ./link_grib.csh $ICBC_DIR/rr-fixed* .
         mv namelist.wps namelist.wps_full
-        cp templates/namelist.narr.constants namelist.wps
+        cp $TEMPLATE_DIR/namelist.narr.constants namelist.wps
         ./ungrib.exe
         mv namelist.wps_full namelist.wps
         ./link_grib.csh $ICBC_DIR/NARR* .
@@ -213,7 +215,7 @@ fi
 #======================================================================
 #======================================================================
 
-cp templates/namelist.input.template_$REAN_STR namelist.input
+cp $TEMPLATE_DIR/namelist.input.template_$REAN_STR namelist.input
 echo "Using templates/namelist.input.template_$REAN_STR"
 sed "s/YY1/$yyS/g" namelist.input > namelist.input_Y
 sed "s/MM1/$mmS/g" namelist.input_Y > namelist.input_M && rm namelist.input_Y
@@ -235,8 +237,8 @@ for dir in "${dirs_to_create[@]}" ; do
     fi
 done
 
-cp templates/submit_real.sh .
-sed "s/REAN/$REAN_STR/g" templates/submit_wrf_template.sh > submit_wrf.sh
+cp $TEMPLATE_DIR/submit_real.sh .
+sed "s/REAN/$REAN_STR/g" $TEMPLATE_DIR/submit_wrf_template.sh > submit_wrf.sh
 sed -i "s/YY1MM1DD1/$yyS$mmS$ddS/g" submit_wrf.sh
 
 #sbatch submit_real.sh
