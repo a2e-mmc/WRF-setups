@@ -1,0 +1,101 @@
+# Log files from preprocessing
+# ----------------------------
+#   geogrid.log
+#   metgrid.log
+#   ungrib.log
+*.log
+
+
+# Executables
+# -----------
+#   geogrid.exe
+#   metgrid.exe
+#   real.exe
+#   tc.exe
+#   ungrib.exe
+#   wrf.exe
+#   submit_real.sh
+#   submit_wrf.sh
+*.exe
+submit_*.sh
+
+
+# Generated tables
+# ----------------
+#   GENPARM.TBL
+#   HLC.TBL
+#   LANDUSE.TBL
+#   SOILPARM.TBL
+#   SOILPARM.TBL_Kishne_2017
+#   URBPARM.TBL
+#   URBPARM_UZE.TBL
+#   VEGPARM.TBL
+*.TBL*
+*.tbl
+
+
+# Downloaded IC/BC data
+# ---------------------
+#   met_em.d01.2013-11-08_00:00:00.nc
+#   ...
+#   met_em.d01.2013-11-09_00:00:00.nc
+#   ...
+#   met_em.d01.2013-11-10_00:00:00.nc
+#   ...
+#   met_em.d02.2013-11-08_00:00:00.nc
+#   ...
+#   met_em.d02.2013-11-09_00:00:00.nc
+#   ...
+#   met_em.d02.2013-11-10_00:00:00.nc
+#   ...
+met_em.d*.*.nc
+metgrid
+
+
+# Grid
+# ----
+#   geo_em.d01.nc
+#   geo_em.d02.nc
+#   geo_em.d03.nc
+#   geogrid/
+geo_em.d*.nc
+geogrid
+
+
+# Generated data
+# --------------
+*.asc*
+*.bin
+*.BIN
+*.dat*
+*.formatted
+
+CAM*
+CLM*
+ETAMPNEW*
+RRTM*
+
+
+# Other files
+# -----------
+README.*
+Vtable
+co2_trans
+*.f90
+*.txt
+*.csh
+tr??t??
+
+
+# WRF output files
+# ----------------
+auxout
+namelist.output
+rsl.out.*
+rsl.error.*
+slurm-*.out
+t????.d??.*
+wrfbdy_d*
+wrfinput_d*
+wrfout_d*
+

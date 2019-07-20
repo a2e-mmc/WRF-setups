@@ -1,8 +1,8 @@
 #!/bin/bash
-#SBATCH --ntasks=72                 # Request 100 CPU cores
-#SBATCH --time=03:00:00           # Job should run for up to 6 hours
+#SBATCH --ntasks=72
+#SBATCH --time=03:00:00
 #SBATCH --job-name=WRF_REAL         
-#SBATCH --account=mmc              # Accounting
+#SBATCH --account=mmc
 
 module purge
 module load intel-mpi/2018.0.3

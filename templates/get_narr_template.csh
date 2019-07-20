@@ -57,7 +57,7 @@ endif
 # authenticate - NOTE: You should only execute this command ONE TIME.
 # Executing this command for every data file you download may cause
 # your download privileges to be suspended.
-wget $cert_opt -O auth_status.rda.ucar.edu --save-cookies auth.rda.ucar.edu.$$ --post-data="email=patrick.hawbecker@nrel.gov&passwd=$passwd&action=login" https://rda.ucar.edu/cgi-bin/login
+wget $cert_opt -O auth_status.rda.ucar.edu --save-cookies auth.rda.ucar.edu.$$ --post-data="email=MY.EMAIL@asdf.com&passwd=$passwd&action=login" https://rda.ucar.edu/cgi-bin/login
 #
 # download the file(s)
 # NOTE:  if you get 403 Forbidden errors when downloading the data files, check
