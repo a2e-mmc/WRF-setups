@@ -86,3 +86,16 @@ co2_trans
 *.csh
 tr??t??
 
+
+# WRF output files
+# ----------------
+auxout
+namelist.output
+rsl.out.*
+rsl.error.*
+slurm-*.out
+t????.d??.*
+wrfbdy_d*
+wrfinput_d*
+wrfout_d*
+
