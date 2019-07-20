@@ -1,8 +1,8 @@
 &share
  wrf_core = 'ARW',
  max_dom = 3,
- start_date = 'START_DATE','START_DATE','START_DATE','START_DATE','START_DATE',
- end_date   = 'END_DATE','END_DATE','END_DATE','END_DATE','END_DATE',
+ start_date = '2013-11-08_00:00:00','2013-11-08_00:00:00','2013-11-08_00:00:00','2013-11-08_00:00:00','2013-11-08_00:00:00',
+ end_date   = '2013-11-10_12:00:00','2013-11-10_12:00:00','2013-11-10_12:00:00','2013-11-10_12:00:00','2013-11-10_12:00:00',
  interval_seconds = 21600,
  io_form_geogrid = 2,
 /
@@ -29,11 +29,11 @@
 
 &ungrib
  out_format = 'WPS',
- prefix = 'FIELD',
+ prefix = 'GFS',
 /
 
 &metgrid
- fg_name = 'FIELD',
+ fg_name = 'GFS',
  io_form_metgrid = 2,
 ! constants_name = 'SST:DATE', 
 /
