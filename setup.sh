@@ -84,7 +84,8 @@ echo -n "RDA password: "
 read -s passwd
 
 if [ $REAN_STR == "NARR" ]; then
-    sed "s/SETPASSWD/$passwd/g" $TEMPLATE_DIR/get_narr_constants.csh > get_narr_constants.csh
+    cp $TEMPLATE_DIR/get_narr_constants.csh get_narr_constants.csh
+    sed -i "s/SETPASSWD/$passwd/g" get_narr_constants.csh
     sed -i "s/MY.EMAIL@asdf.com/$emailaddr/g" get_narr_constants.csh
     ./get_narr_constants.csh && rm get_narr_constants.csh
     echo "Use templates/get_narr.csh to download necessary files"
@@ -98,7 +99,8 @@ do
     mm=$(echo $sim_day | cut -f2 -d-)
     dd=$(echo $sim_day | cut -f3 -d-)
     if [ $REAN_STR == "ERA" ]; then
-        sed "s/SETPASSWD/$passwd/g" $TEMPLATE_DIR/get_erai_template.csh > get_erai.csh
+        cp $TEMPLATE_DIR/get_erai_template.csh get_erai.csh
+        sed -i "s/SETPASSWD/$passwd/g" get_erai.csh
         sed -i "s/MY.EMAIL@asdf.com/$emailaddr/g" get_erai.csh
         sed -i "s/DD1/$dd/g" get_erai.csh
         sed -i "s/MM1/$mm/g" get_erai.csh
@@ -107,7 +109,8 @@ do
         ./get_erai.csh && rm get_erai.csh
         #cp get_erai.csh get_erai.csh_${CASE_STR}_$counter
     elif [ $REAN_STR == "GFS" ]; then
-        sed "s/SETPASSWD/$passwd/g" $TEMPLATE_DIR/get_gfs_template.csh > get_gfs.csh
+        cp $TEMPLATE_DIR/get_gfs_template.csh get_gfs.csh
+        sed -i "s/SETPASSWD/$passwd/g" get_gfs.csh
         sed -i "s/MY.EMAIL@asdf.com/$emailaddr/g" get_gfs.csh
         sed -i "s/YY1/$yy/g" get_gfs.csh
         sed -i "s/MM1/$mm/g" get_gfs.csh
@@ -151,16 +154,18 @@ fi
 
 cd $SIM_DIR
 cp $WPS_TEMPLATE namelist.wps
-sed "s/START_DATE/${yyS}-${mmS}-${ddS}_${hhS}:00:00/g" namelist.wps > namelist.wps_S
-sed "s/END_DATE/$END_DATE/g" namelist.wps_S > namelist.wps_E && rm namelist.wps_S
-sed "s/FIELD/$REAN_STR/g" namelist.wps_E > namelist.wps && rm namelist.wps_E
+sed -i "s/START_DATE/${yyS}-${mmS}-${ddS}_${hhS}:00:00/g" namelist.wps
+sed -i "s/END_DATE/$END_DATE/g" namelist.wps
+sed -i "s/FIELD/$REAN_STR/g" namelist.wps
 
 ln -sf $WPS_DIR/geogrid.exe .
 ln -sf $WPS_DIR/ungrib.exe .
 ln -sf $WPS_DIR/metgrid.exe .
-if [ ! -d geogrid ]; then mkdir geogrid
+if [ ! -d geogrid ]; then
+    mkdir geogrid
 fi
-if [ ! -d metgrid ]; then mkdir metgrid
+if [ ! -d metgrid ]; then
+    mkdir metgrid
 fi
 ln -sf $WPS_DIR/geogrid/GEOGRID.TBL geogrid/.
 ln -sf $WPS_DIR/metgrid/METGRID.TBL metgrid/.
@@ -201,8 +206,7 @@ if [ ! -f met_em.d0$MAX_DOM.$END_DATE.nc ]; then
     fi
     ./ungrib.exe
     if [ $REAN_STR = "NARR" ]; then
-        sed "s/! constants_name = 'SST:DATE'/ constants_name = 'FIX:1979-11-08_00'/g" namelist.wps > namelist.wps_temp
-        mv namelist.wps_temp namelist.wps
+        sed -i "s/! constants_name = 'SST:DATE'/ constants_name = 'FIX:1979-11-08_00'/g" namelist.wps
     fi
     ./metgrid.exe
     rm $REAN_STR:*
@@ -219,17 +223,16 @@ fi
 #======================================================================
 #======================================================================
 
-cp $TEMPLATE_DIR/namelist.input.template_$REAN_STR namelist.input
 echo "Using templates/namelist.input.template_$REAN_STR"
-sed "s/YY1/$yyS/g" namelist.input > namelist.input_Y
-sed "s/MM1/$mmS/g" namelist.input_Y > namelist.input_M && rm namelist.input_Y
-sed "s/DD1/$ddS/g" namelist.input_M > namelist.input_D && rm namelist.input_M
-sed "s/HH1/$hhS/g" namelist.input_D > namelist.input_H && rm namelist.input_D
-
-sed "s/YY2/$yyE/g" namelist.input_H > namelist.input_Y && rm namelist.input_H
-sed "s/MM2/$mmE/g" namelist.input_Y > namelist.input_M && rm namelist.input_Y
-sed "s/DD2/$ddE/g" namelist.input_M > namelist.input_D && rm namelist.input_M
-sed "s/HH2/$hhE/g" namelist.input_D > namelist.input && rm namelist.input_D
+cp $TEMPLATE_DIR/namelist.input.template_$REAN_STR namelist.input
+sed -i "s/YY1/$yyS/g" namelist.input
+sed -i "s/MM1/$mmS/g" namelist.input
+sed -i "s/DD1/$ddS/g" namelist.input
+sed -i "s/HH1/$hhS/g" namelist.input
+sed -i "s/YY2/$yyE/g" namelist.input
+sed -i "s/MM2/$mmE/g" namelist.input
+sed -i "s/DD2/$ddE/g" namelist.input
+sed -i "s/HH2/$hhE/g" namelist.input
 
 ln -sf $EXE_DIR/[aBbCcEGgHikLmopRStUV]* .
 ln -sf $EXE_DIR/real.exe .
@@ -242,7 +245,8 @@ for dir in "${dirs_to_create[@]}" ; do
 done
 
 cp $TEMPLATE_DIR/submit_real.sh .
-sed "s/REAN/$REAN_STR/g" $TEMPLATE_DIR/submit_wrf_template.sh > submit_wrf.sh
+cp $TEMPLATE_DIR/submit_wrf_template.sh submit_wrf.sh
+sed -i "s/REAN/$REAN_STR/g" $TEMPLATE_DIR/submit_wrf.sh
 sed -i "s/YY1MM1DD1/$yyS$mmS$ddS/g" submit_wrf.sh
 
 #sbatch submit_real.sh
