@@ -246,7 +246,7 @@ done
 
 cp $TEMPLATE_DIR/submit_real.sh .
 cp $TEMPLATE_DIR/submit_wrf_template.sh submit_wrf.sh
-sed -i "s/REAN/$REAN_STR/g" $TEMPLATE_DIR/submit_wrf.sh
+sed -i "s/REAN/$REAN_STR/g" submit_wrf.sh
 sed -i "s/YY1MM1DD1/$yyS$mmS$ddS/g" submit_wrf.sh
 
 #sbatch submit_real.sh
