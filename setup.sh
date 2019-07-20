@@ -39,8 +39,6 @@ WPS_DIR="$HOME/WRF/WRFV4.1/WPS"
 ICBC_DIR="/scratch/$USER/WRF/ICBC"
 # LOCATION OF WRF EXECUTABLES
 EXE_DIR="$HOME/WRF/WRFV4.1/WRF_Tendencies/run"
-# LOCATION TO RUN WPS/WRF
-OUT_DIR="/scratch/$USER/WRF/${CASE_STR}_$yyS$mmS$ddS$hhS"
 
 # SETUP COMPUTING ENVIRONMENT
 module purge
@@ -59,15 +57,9 @@ export HDF5=$HDF5_ROOT_DIR
 if [ ! -d $ICBC_DIR ]; then
     mkdir -p $ICBC_DIR
 fi
-if [ ! -d $OUT_DIR ]; then
-    mkdir -p $OUT_DIR
-fi
-OUT_DIR="$OUT_DIR/$REAN_STR"
-if [ ! -d $OUT_DIR ]; then
-    mkdir -p $OUT_DIR
-fi
 
-TEMPLATE_DIR="`pwd`/templates"
+SIM_DIR=`pwd`
+TEMPLATE_DIR="$SIM_DIR/templates"
 
 # Calculate the end date...
 END_DATE=$(date -d "$yyS-$mmS-$ddS + $nhours hours" +%Y-%m-%d_%H:%M:%S)
@@ -157,7 +149,7 @@ if [ -n "$DOM_STR" ]; then
     WPS_TEMPLATE="${WPS_TEMPLATE}.${DOM_STR}"
 fi
 
-cd $OUT_DIR
+cd $SIM_DIR
 cp $WPS_TEMPLATE namelist.wps
 sed "s/START_DATE/${yyS}-${mmS}-${ddS}_${hhS}:00:00/g" namelist.wps > namelist.wps_S
 sed "s/END_DATE/$END_DATE/g" namelist.wps_S > namelist.wps_E && rm namelist.wps_S
