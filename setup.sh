@@ -32,6 +32,8 @@ MAX_DOM="2"
 DOM_STR=""
 # REANALYSIS TO USE (ERA, NARR, GFS, ERA5)
 REAN_STR="GFS" 
+# LOCATION TO RUN WPS/WRF
+OUT_DIR="/scratch/$USER/WRF/${CASE_STR}_$yyS$mmS$ddS$hhS"
 
 # LOCATION OF WPS EXECUTABLES
 WPS_DIR="$HOME/WRF/WRFV4.1/WPS"
@@ -53,13 +55,19 @@ export HDF5=$HDF5_ROOT_DIR
 # - - - - - - - - - END USER SETTINGS - - - - - - - - - - - #
 #===========================================================#
 
-# If directory doesn't exist, create it.
+# Don't overwrite existing directory!
+if [ -d $OUT_DIR ]; then
+    echo "$OUT_DIR already exists! Abort..."
+    exit
+fi
+mkdir -p $OUT_DIR
+
+# If directory doesn't exist, create it
 if [ ! -d $ICBC_DIR ]; then
     mkdir -p $ICBC_DIR
 fi
 
-SIM_DIR=`pwd`
-TEMPLATE_DIR="$SIM_DIR/templates"
+TEMPLATE_DIR="`pwd`/templates"
 
 # Calculate the end date...
 END_DATE=$(date -d "$yyS-$mmS-$ddS + $nhours hours" +%Y-%m-%d_%H:%M:%S)
@@ -152,7 +160,7 @@ if [ -n "$DOM_STR" ]; then
     WPS_TEMPLATE="${WPS_TEMPLATE}.${DOM_STR}"
 fi
 
-cd $SIM_DIR
+cd $OUT_DIR
 cp $WPS_TEMPLATE namelist.wps
 sed -i "s/START_DATE/${yyS}-${mmS}-${ddS}_${hhS}:00:00/g" namelist.wps
 sed -i "s/END_DATE/$END_DATE/g" namelist.wps
@@ -244,6 +252,8 @@ for dir in "${dirs_to_create[@]}" ; do
     fi
 done
 
+cp $TEMPLATE_DIR/tslist .
+cp $TEMPLATE_DIR/myoutfields.txt .
 cp $TEMPLATE_DIR/submit_real.sh .
 cp $TEMPLATE_DIR/submit_wrf_template.sh submit_wrf.sh
 sed -i "s/REAN/$REAN_STR/g" submit_wrf.sh
