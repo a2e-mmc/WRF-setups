@@ -106,7 +106,7 @@
 
 &dynamics
  ! Cell Perturbation Method (CPM) - start
- cell_pert                           = .false.,.true.,
+ cell_pert                           = .false.,.false.,
  cell_pert_2d                        = .false.,.false.,
  cell_pert_2d_opt                    = 0,      0,
  cell_pert_1d                        = .false.,.true.,
