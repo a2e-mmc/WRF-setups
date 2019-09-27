@@ -55,10 +55,10 @@
  hypsometric_opt           = 2,
  feedback                  = 0,
  smooth_option             = 0,
- nproc_x                   = 4, !NCAR 
- nproc_y                   = 4, !NCAR
- !max_ts_locs               = 200,
- !max_ts_level              = 88,
+ !nproc_x                   = 4, !NCAR 
+ !nproc_y                   = 4, !NCAR
+ max_ts_locs               = 200,
+ max_ts_level              = 88,
  eta_levels   = 1.00000,  0.99727,  0.99440,  0.99139,
                 0.98823,  0.98492,  0.98144,  0.97779,
                 0.97396,  0.96994,  0.96573,  0.96130,
