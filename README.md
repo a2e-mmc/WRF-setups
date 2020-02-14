@@ -9,3 +9,6 @@ from the NCAR Research Data Archive (RDA), and then run preprocessing utilities
 `SWiFT_20131108_PertMethodsGroup` contains the input_sounding, namelist, tslist,
 and output-control file (which reduces the number of variables that are stored 
 in the wrfout_d0* files) for the convective case. 
+
+`FINO_20100512` contains the WRF setup script and templates for the offshore
+FINO simulations for the 13 day period of interest.
