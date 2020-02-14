@@ -126,7 +126,7 @@ do
             ./get_narr_constants.csh && rm get_narr_constants.csh
             echo "Use templates/get_narr.csh to download necessary files"
         fi
-        days_of_simulation=$(( nhours / 24 + 1))
+        days_of_simulation=$(( nhours / 24 + 2))
         counter="0"
         while [ $counter -lt $days_of_simulation ]
         do
