@@ -176,7 +176,6 @@ do
             
         done
         echo "Finished downloading ICBC data."
-
     elif [ $get_ICBC == "link" ]; then
         cd $ICBC_DIR
         pwd
