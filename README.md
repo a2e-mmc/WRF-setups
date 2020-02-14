@@ -22,3 +22,5 @@ For more information on running `setup.sh`, see `templates/README`.
   file (which reduces the number of variables that are stored in the wrfout_d0*
   files).
   - convective: 1800-2000 UTC, specified heat flux of 175 W/m^2
+- `FINO_20100512` contains the WRF setup script and templates for the offshore
+FINO simulations for the 13 day period of interest.
