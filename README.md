@@ -20,7 +20,7 @@ from the NCAR Research Data Archive (RDA), and then run preprocessing utilities
   files).
   - convective: 1800-2000 UTC, specified heat flux of 175 W/m^2
 
-## Downloading data and running WRF with ERA5==
+## Downloading data and running WRF with ERA5
 ERA5 is a newer reanalysis product that has gotten a lot of positive feedback about how well it simulates past dates (not for forecasting) from 1979 to within 3 months of real time. Downloading the data, for now, is a bit tricky and can get very large. 
 ### To download:
 - Go to https://cds.climate.copernicus.eu/cdsapp#!/search?type=dataset&text=era5 and create an account (if you don't already have one).
