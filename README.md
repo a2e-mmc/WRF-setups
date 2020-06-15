@@ -1,10 +1,13 @@
-# WRF-models
+# WRF-setups
 This repository is an archive of WRF simulations successfully run within the A2e
-MMC project.
+MMC project. These have been tested with a2e-mmc version of WRF (https://github.com/a2e-mmc/WRF),
+which tracks the NCAR WRF development. 
 
 Running `setup.sh`, will automatically download the initial/boundary conditions
 from the NCAR Research Data Archive (RDA), and then run preprocessing utilities
 `geogrid`, `ungrib`, and `metgrid` for real WRF cases.
+
+For more information on running `setup.sh`, see `templates/README`.
 
 
 ## Archived cases
@@ -19,6 +22,8 @@ from the NCAR Research Data Archive (RDA), and then run preprocessing utilities
   file (which reduces the number of variables that are stored in the wrfout_d0*
   files).
   - convective: 1800-2000 UTC, specified heat flux of 175 W/m^2
+- `FINO_20100512` contains the WRF setup script and templates for the offshore
+FINO simulations for the 13 day period of interest.
 
 ## Downloading data and running WRF with ERA5
 ERA5 is a newer reanalysis product that has gotten a lot of positive feedback about how well it simulates past dates (not for forecasting) from 1979 to within 3 months of real time. Downloading the data, for now, is a bit tricky and can get very large. 

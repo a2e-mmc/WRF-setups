@@ -1,0 +1,147 @@
+&time_control
+ run_days                  =    0,
+ run_hours                 =   NHOURS,
+ run_minutes               =    0,
+ run_seconds               =    0,
+ start_year                =   YY1, YY1, YY1, YY1, YY1,
+ start_month               =   MM1,  MM1,  MM1, MM1, MM1, 
+ start_day                 =   DD1,  DD1, DD1, DD1, DD1, 
+ start_hour                =   HH1,  HH1,  HH1, HH1, HH1, 
+ start_minute              =   00,  00,  00, 00, 00,
+ start_second              =   00,  00,  00, 00, 00,
+ end_year                  =   YY2, YY2, YY2, YY2, YY2,
+ end_month                 =   MM2,  MM2,  MM2, MM2, MM2,
+ end_day                   =   DD2,  DD2,  DD2, DD2, DD2,
+ end_hour                  =   HH2,  HH2,  HH2, HH2, HH2,
+ end_minute                =   00,  00,  00, 00, 00,
+ end_second                =   00,  00,  00, 00,  00,
+ interval_seconds          = 21600,
+ input_from_file           = .true.,.true.,.true.,.true.,.true., 
+ restart                   = .false.,
+ restart_interval          = 720,
+ io_form_history           = 2
+ io_form_restart           = 2
+ io_form_input             = 2
+ io_form_boundary          = 2
+ history_interval          = 120,  60,  60, 10, 10, 
+ frames_per_outfile        = 1,     1,   1,  1,  1, 
+ auxhist15_begin_h         = 0,     0,   0,
+ auxhist15_end_h           = 0,    60,  60, 
+ auxhist15_interval_m      = 0,    10,  10,
+ auxhist15_outname         = "auxout/mmc_d<domain>_<date>",
+ frames_per_auxhist15      = 0,     6,   6,
+ io_form_auxhist15         = 2,
+ iofields_filename         = "myoutfields.txt","myoutfields.txt","myoutfields.txt"
+ ignore_iofields_warning   = .true.,
+ debug_level               = 0 
+
+/
+
+&domains
+ time_step                 =  90,
+ time_step_fract_num       =    0,
+ time_step_fract_den       =    1,
+ max_dom                   =    MAXDOM,
+ max_ts_locs               =  999,
+ max_ts_level              =  88,
+ tslist_unstagger_winds    = .true., 
+ s_we                      =    1,  1,  1, 1, 1, 
+ e_we                      =  154, 175, 292, 304, 730,
+ s_sn                      =    1,  1,  1, 1, 1, 
+ e_sn                      =  133, 133, 202, 304, 601,
+ s_vert                    =    1,  1,  1, 1, 1, 
+ e_vert                    =   88, 88, 88, 88, 88 
+ eta_levels                =   1.00000,  0.99935,  0.99871,  0.99806,
+                               0.99742,  0.99677,  0.99609,  0.99538,
+                               0.99464,  0.99386,  0.99304,  0.99218,
+                               0.99127,  0.99032,  0.98933,  0.98829,
+                               0.98719,  0.98605,  0.98484,  0.98358,
+                               0.98226,  0.98087,  0.97941,  0.97789,
+                               0.97629,  0.97461,  0.97285,  0.97101,
+                               0.96908,  0.96705,  0.96493,  0.96271,           
+                               0.96038,  0.95793,  0.95538,  0.95270,
+                               0.94989,  0.94696,  0.94388,  0.94066,
+                               0.93729,  0.93360,  0.92955,  0.92512,
+                               0.92026,  0.91495,  0.90914,  0.90278,
+                               0.89584,  0.88825,  0.87997,  0.87095,
+                               0.86112,  0.85042,  0.83879,  0.82617,
+                               0.81247,  0.79764,  0.78161,  0.76430,
+                               0.74566,  0.72562,  0.70412,  0.68112,
+                               0.65658,  0.63048,  0.60281,  0.57359,
+                               0.54285,  0.51066,  0.47711,  0.44234,
+                               0.40652,  0.36985,  0.33259,  0.29501,
+                               0.25746,  0.22028,  0.18491,  0.15347,
+                               0.12553,  0.10069,  0.07861,  0.05898,
+                               0.04154,  0.02603,  0.01225,  0.00000,
+ p_top_requested           = 10000,
+ num_metgrid_levels        = 27,
+ num_metgrid_soil_levels   = 4,
+ dx                        = 27000,9000,3000,1000,333, 
+ dy                        = 27000,9000,3000,1000,333,
+ grid_id                   =    1,   2,   3, 4, 5, 
+ parent_id                 =    1,   1,   2, 3, 4,
+ i_parent_start            =    1,  51, 38, 51, 20,
+ j_parent_start            =    1,  44, 33, 51, 20,
+ parent_grid_ratio         =    1,   3,   3, 3, 3, 
+ parent_time_step_ratio    =    1,   3,   3, 3, 3, 
+ feedback                  =    1,
+ smooth_option             =    0,
+ sfcp_to_sfcp              = .true.
+ /
+
+&physics
+ mp_physics                =  6,  6,  6, 6, 6,   
+ ra_lw_physics             =  4,  4,  4, 4, 4, 
+ ra_sw_physics             =  4,  4,  4, 4, 4, 
+ radt                      =  9,  9,  3, 1, 1,
+ sf_sfclay_physics         =  1,  1,  1, 1, 1, 
+ sf_surface_physics        =  2,  2,  2, 2, 2, 
+ bl_pbl_physics            =  1,  1,  1, 1, 1, 
+ bldt                      =  0,  0,  0, 0, 0, 
+ cu_physics                =  1,  0,  0, 0, 0, 
+ cudt                      =  5,  5,  5, 5, 5,
+ isfflx                    =  1,
+ ifsnow                    =  0,
+ icloud                    =  0,
+ surface_input_source      =  1,
+ num_soil_layers           =  4,
+ sf_urban_physics          =  0,  0,  0, 0, 0, 
+ /
+
+&fdda
+/
+
+&dynamics
+ w_damping                 =    1,
+ diff_opt                  =    1,   1,   1, 1, 1, 
+ km_opt                    =    4,   4,   4, 4, 4,
+ diff_6th_opt              =    2,   2,   2, 2, 2,
+ diff_6th_factor           = 0.12,0.12,0.12, 0.12, 0.12,
+ base_temp                 = 290.
+ damp_opt                  = 3,
+ zdamp                     = 5000.,5000.,5000., 5000., 5000.,
+ dampcoef                  =   0.2,  0.2,  0.2, 0.2, 0.2, 
+ khdif                     =     0,    0,    0,  0, 0, 
+ kvdif                     =     0,    0,    0,  0, 0, 
+ non_hydrostatic           = .true.,.true.,.true.,.true.,.true.,
+ moist_adv_opt             =      1,     1,     1, 1, 1,
+ scalar_adv_opt            =      1,     1,     1, 1, 1,
+ tke_adv_opt               =      1,     1,     1, 1, 1, 
+ h_mom_adv_order           =      5,     5,     5, 5, 5,
+ v_mom_adv_order           =      3,     3,     3, 3, 3, 
+ h_sca_adv_order           =      5,     5,     5, 5, 5, 
+ v_sca_adv_order           =      3,     3,     3, 3, 3, 
+ /
+ 
+&bdy_control
+ spec_bdy_width            = 5,
+ spec_zone                 = 1,
+ relax_zone                = 4,
+ specified                 =  .true.,.false.,.false.,.false.,.false.,
+ nested                    = .false., .true., .true.,.true.,.true.,
+/
+
+ &namelist_quilt
+ nio_tasks_per_group       = 0,
+ nio_groups                = 1,
+ /
