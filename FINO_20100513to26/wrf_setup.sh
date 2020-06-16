@@ -27,7 +27,7 @@ yyS="2010"
 # MONTH START
 mmS="05"
 # DAY START
-ddS="16"
+ddS="14"
 # HOUR START
 hhS="12"
 # NUMBER OF DOMAINS TO USE
@@ -316,7 +316,7 @@ do
         echo '    unlink $f' >> submit_wps.sh
         echo 'done' >> submit_wps.sh
     fi
-    #qsub submit_wps.sh
+    qsub submit_wps.sh
 
 
 
