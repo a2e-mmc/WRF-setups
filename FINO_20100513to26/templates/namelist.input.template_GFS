@@ -42,7 +42,7 @@
  time_step_fract_num       =    0,
  time_step_fract_den       =    1,
  max_dom                   =    MAXDOM,
- max_ts_locs               =  999,
+ max_ts_locs               =   20,
  max_ts_level              =  88,
  tslist_unstagger_winds    = .true., 
  s_we                      =    1,  1,  1, 1, 1, 
