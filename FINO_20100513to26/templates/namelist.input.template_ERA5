@@ -109,7 +109,7 @@
  num_soil_layers           =  4,
  sf_urban_physics          =  0,  0,  0, 0, 0, 
  use_bathymetry            =  0,  0,  0, 0, 0,
- sst_update                =  1, 
+ sst_update                =  0, 
  sst_skin                  =  0,
  /
 
