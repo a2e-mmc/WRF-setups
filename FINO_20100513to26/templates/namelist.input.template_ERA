@@ -87,7 +87,7 @@
  j_parent_start            =    1,  44, 33, 51, 20,
  parent_grid_ratio         =    1,   3,   3, 3, 3, 
  parent_time_step_ratio    =    1,   3,   3, 3, 3, 
- feedback                  =    1,
+ feedback                  =    0,
  smooth_option             =    0,
  /
 
