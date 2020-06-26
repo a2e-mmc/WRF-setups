@@ -34,6 +34,9 @@
  iofields_filename         = "myoutfields.txt","myoutfields.txt","myoutfields.txt","myoutfields.txt"
  ignore_iofields_warning   = .true.,
  debug_level               = 0 
+ auxinput4_inname          = "wrflowinp_d<domain>"
+ auxinput4_interval        = 360,360,360,
+ io_form_auxinput4         = 2
 
 /
 
@@ -42,7 +45,7 @@
  time_step_fract_num       =    0,
  time_step_fract_den       =    1,
  max_dom                   =    MAXDOM,
- max_ts_locs               =  999,
+ max_ts_locs               =  20,
  max_ts_level              =  88,
  tslist_unstagger_winds    = .true., 
  s_we                      =    1,  1,  1, 1, 1, 
@@ -84,7 +87,7 @@
  j_parent_start            =    1,  44, 33, 51, 20,
  parent_grid_ratio         =    1,   3,   3, 3, 3, 
  parent_time_step_ratio    =    1,   3,   3, 3, 3, 
- feedback                  =    1,
+ feedback                  =    0,
  smooth_option             =    0,
  /
 
@@ -105,6 +108,10 @@
  surface_input_source      =  1,
  num_soil_layers           =  4,
  sf_urban_physics          =  0,  0,  0, 0, 0, 
+ use_bathymetry            =  0,  0,  0, 0, 0,
+ sst_update                =  1,
+ sst_skin                  =  0,
+ sf_ocean_physics          =  1,
  /
 
 &fdda

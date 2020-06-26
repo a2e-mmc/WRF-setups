@@ -19,7 +19,7 @@ CASE_STR="FINO"
 # NUMBER OF HOURS TO RUN
 nhours=60 #60
 # NUMBER OF SIMULATIONS
-nsims=7 #46
+nsims=1 #46
 # HOURS BETWEEN SIMULATIONS
 sim_delta=48
 # YEAR START
@@ -27,7 +27,7 @@ yyS="2010"
 # MONTH START
 mmS="05"
 # DAY START
-ddS="12"
+ddS="14"
 # HOUR START
 hhS="12"
 # NUMBER OF DOMAINS TO USE
@@ -35,10 +35,10 @@ MAX_DOM="3"
 # DOMAIN CONFIG (default: "")
 DOM_STR=""
 # REANALYSIS TO USE (ERA, NARR, GFS, ERA5)
-REAN_STR="GFS" 
-# LOCATION TO RUN WPS/WRF
-OUT_DIR_BASE="/glade/scratch/$USER/WRF/MMC/FINO1/${CASE_STR}"
+REAN_STR="ERA5" 
 
+# LOCATION TO RUN WPS/WRF
+OUT_DIR_BASE="/glade/scratch/$USER/WRF/MMC/FINO1/20100512_to_20100526/FINO_ERA5_MESO/${CASE_STR}"
 # LOCATION OF WPS EXECUTABLES
 WPS_DIR="$HOME/Models/WRF/WRFvMMC/WPS"
 # LOCATION OF WHERE TO DOWNLOAD REANALYSIS DATA
@@ -286,6 +286,7 @@ do
             mv namelist.wps_full namelist.wps
             ./link_grib.csh $ICBC_DIR/NARR* .
         elif [ $REAN_STR == "ERA5" ]; then
+            echo "Linking grib files... if this fails, read directions in the WRF-setups/README.md to download ERA5 data and make sure ICBC_DIR is set correctly."
             ./link_grib.csh $ICBC_DIR/era_5_* .
         else
             echo "I don't know which IC/BC files to link..."
@@ -351,7 +352,9 @@ do
     cp $TEMPLATE_DIR/tslist .
     cp $TEMPLATE_DIR/myoutfields.txt .
     cp $TEMPLATE_DIR/submit_real.sh .
+    sed -i "s/SIMNAME/$ddS/g" submit_real.sh
     cp $TEMPLATE_DIR/submit_wrf_template.sh submit_wrf.sh
+    sed -i "s/SIMNAME/$ddS/g" submit_wrf.sh
     sed -i "s/REAN/$REAN_STR/g" submit_wrf.sh
     sed -i "s/YY1MM1DD1/$yyS$mmS$ddS/g" submit_wrf.sh
 
