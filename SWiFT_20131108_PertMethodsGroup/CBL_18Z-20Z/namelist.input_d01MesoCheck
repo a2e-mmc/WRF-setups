@@ -173,9 +173,11 @@
  non_hydrostatic           = .true.,  .true.,
  pert_coriolis             = .true., .true.,
  use_baseparam_fr_nml      = .true.,
- spec_ideal                = .true.,
+ spec_init_perts           = .false.,
+ spec_ideal                = 1,
  spec_hfx                  = 175.0,
- spec_z0                   = 0.01,
+ spec_sf_heatrate          = 0.0,
+ spec_z0                   = 0.03,
  spec_lat                  = 33.6,
  /
  
