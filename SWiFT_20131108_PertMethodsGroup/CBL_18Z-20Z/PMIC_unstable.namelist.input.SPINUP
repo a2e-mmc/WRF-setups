@@ -26,7 +26,7 @@
  history_interval_m        = 30,     10,   
  frames_per_outfile        = 1,      1,  
  override_restart_timers   = .true., 
- write_hist_at_0h_rst      = .true.,
+ write_hist_at_0h_rst      = .false.,
  iofields_filename         = "mmc_spec_outfields.txt","mmc_spec_outfields.txt"
  ignore_iofields_warning   = .true.,
 /
@@ -177,7 +177,7 @@
  spec_ideal                = 1,
  spec_hfx                  = 175.0,
  spec_sf_heatrate          = 0.0,
- spec_z0                   = 0.01,
+ spec_z0                   = 0.03,
  spec_lat                  = 33.6,
  /
  
