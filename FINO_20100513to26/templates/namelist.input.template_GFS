@@ -25,12 +25,15 @@
  io_form_boundary          = 2
  history_interval          = 120,  60,  60, 10, 10, 
  frames_per_outfile        = 1,     1,   1,  1,  1, 
- auxhist15_begin_h         = 0,     0,   0,
- auxhist15_end_h           = 0,    60,  60, 
- auxhist15_interval_m      = 0,    10,  10,
- auxhist15_outname         = "auxout/mmc_d<domain>_<date>",
- frames_per_auxhist15      = 0,     6,   6,
- io_form_auxhist15         = 2,
+ auxinput4_inname          = "wrflowinp_d<domain>"
+ auxinput4_interval        = 360,360,360,
+ io_form_auxinput4         = 2
+! auxhist15_begin_h         = 0,     0,   0,
+! auxhist15_end_h           = 0,    60,  60, 
+! auxhist15_interval_m      = 0,    10,  10,
+! auxhist15_outname         = "auxout/mmc_d<domain>_<date>",
+! frames_per_auxhist15      = 0,     6,   6,
+! io_form_auxhist15         = 2,
  iofields_filename         = "myoutfields.txt","myoutfields.txt","myoutfields.txt"
  ignore_iofields_warning   = .true.,
  debug_level               = 0 
@@ -38,17 +41,17 @@
 /
 
 &domains
- time_step                 =  90,
+ time_step                 =  75,
  time_step_fract_num       =    0,
  time_step_fract_den       =    1,
  max_dom                   =    MAXDOM,
  max_ts_locs               =   20,
- max_ts_level              =  88,
+ max_ts_level              =  51,
  tslist_unstagger_winds    = .true., 
  s_we                      =    1,  1,  1, 1, 1, 
- e_we                      =  154, 175, 292, 304, 730,
+ e_we                      =  201, 201, 261, 304, 730,
  s_sn                      =    1,  1,  1, 1, 1, 
- e_sn                      =  133, 133, 202, 304, 601,
+ e_sn                      =  201, 201, 261, 304, 601,
  s_vert                    =    1,  1,  1, 1, 1, 
  e_vert                    =   88, 88, 88, 88, 88 
  eta_levels                =   1.00000,  0.99935,  0.99871,  0.99806,
@@ -76,15 +79,15 @@
  p_top_requested           = 10000,
  num_metgrid_levels        = 27,
  num_metgrid_soil_levels   = 4,
- dx                        = 27000,9000,3000,1000,333, 
- dy                        = 27000,9000,3000,1000,333,
+ dx                        = 25000,5000,1000,1000,333, 
+ dy                        = 25000,5000,1000,1000,333,
  grid_id                   =    1,   2,   3, 4, 5, 
  parent_id                 =    1,   1,   2, 3, 4,
- i_parent_start            =    1,  51, 38, 51, 20,
- j_parent_start            =    1,  44, 33, 51, 20,
- parent_grid_ratio         =    1,   3,   3, 3, 3, 
- parent_time_step_ratio    =    1,   3,   3, 3, 3, 
- feedback                  =    1,
+ i_parent_start            =    1,  80, 77, 51, 20,
+ j_parent_start            =    1,  80, 77, 51, 20,
+ parent_grid_ratio         =    1,   5,   5, 3, 3, 
+ parent_time_step_ratio    =    1,   5,   5, 3, 3, 
+ feedback                  =    0,
  smooth_option             =    0,
  sfcp_to_sfcp              = .true.
  /
@@ -98,7 +101,7 @@
  sf_surface_physics        =  2,  2,  2, 2, 2, 
  bl_pbl_physics            =  1,  1,  1, 1, 1, 
  bldt                      =  0,  0,  0, 0, 0, 
- cu_physics                =  1,  0,  0, 0, 0, 
+ cu_physics                =  1,  1,  0, 0, 0, 
  cudt                      =  5,  5,  5, 5, 5,
  isfflx                    =  1,
  ifsnow                    =  0,
@@ -106,6 +109,10 @@
  surface_input_source      =  1,
  num_soil_layers           =  4,
  sf_urban_physics          =  0,  0,  0, 0, 0, 
+ use_bathymetry            =  0,  0,  0, 0, 0,
+ sst_update                =  1,
+ sst_skin                  =  0,
+ sf_ocean_physics          =  0,
  /
 
 &fdda

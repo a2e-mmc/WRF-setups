@@ -35,10 +35,10 @@ MAX_DOM="3"
 # DOMAIN CONFIG (default: "")
 DOM_STR=""
 # REANALYSIS TO USE (ERA, NARR, GFS, ERA5)
-REAN_STR="ERA5" 
+REAN_STR="GFS"
 
 # LOCATION TO RUN WPS/WRF
-OUT_DIR_BASE="/glade/scratch/$USER/WRF/MMC/FINO1/20100512_to_20100526/FINO_ERA5_MESO/${CASE_STR}"
+OUT_DIR_BASE="/glade/scratch/$USER/WRF/MMC/FINO1/20100512_to_20100526/GFSR_YSU_CHRN_GFS_NOSK_3DOM/${CASE_STR}"
 # LOCATION OF WPS EXECUTABLES
 WPS_DIR="$HOME/Models/WRF/WRFvMMC/WPS"
 # LOCATION OF WHERE TO DOWNLOAD REANALYSIS DATA
@@ -92,6 +92,11 @@ do
     else
         mkdir -p $OUT_DIR
     fi
+
+    cd $OUT_DIR/../.
+    cp $TEMPLATE_DIR/batch_changes.sh . 
+    cp $TEMPLATE_DIR/submit_all.sh . 
+    cd -
 
 # If directory doesn't exist, create it
     if [ ! -d $ICBC_DIR ]; then
@@ -198,8 +203,14 @@ do
                 ./link_erai.sh && rm link_erai.sh
                 #cp get_erai.csh get_erai.csh_${CASE_STR}_$counter
             elif [ $REAN_STR == "GFS" ]; then
-                echo "You may need to download the data manually... see get_gfs_template.csh for details"
-                exit
+                cp $TEMPLATE_DIR/link_gfs_template.sh link_gfs.sh
+                sed -i "s/SETPASSWD/$passwd/g" link_gfs.sh
+                sed -i "s/MY.EMAIL@asdf.com/$emailaddr/g" link_gfs.sh
+                sed -i "s/DD1/$dd/g" link_gfs.sh
+                sed -i "s/MM1/$mm/g" link_gfs.sh
+                sed -i "s/YY1/$yy/g" link_gfs.sh
+                chmod u+x link_gfs.sh
+                ./link_gfs.sh && rm link_gfs.sh
             elif [ $REAN_STR == "NARR" ]; then
                 echo "You may need to download the data manually... see get_narr_template.csh for details"
                 echo "Do you want to continue? (y/n)"
@@ -231,7 +242,13 @@ do
 #======================================================================
 
 
-    WPS_TEMPLATE="$TEMPLATE_DIR/namelist.wps.template"
+    if [ $REAN_STR == "ERA5" ]; then
+
+        WPS_TEMPLATE="$TEMPLATE_DIR/namelist.wps.template_ERA5"
+    else
+        WPS_TEMPLATE="$TEMPLATE_DIR/namelist.wps.template"
+    fi
+
     if [ -n "$DOM_STR" ]; then
         # append DOM_STR
         WPS_TEMPLATE="${WPS_TEMPLATE}.${DOM_STR}"
@@ -275,7 +292,7 @@ do
 
     if [ ! -f met_em.d0$MAX_DOM.$END_DATE.nc ]; then
         if [ $REAN_STR == "ERA" ]; then
-            ./link_grib.csh $ICBC_DIR/ei.oper* .
+            ./link_grib.csh $ICBC_DIR/ei.oper*$yy* .
         elif [ $REAN_STR = "GFS" ]; then
             ./link_grib.csh $ICBC_DIR/fnl* .
         elif [ $REAN_STR = "NARR" ]; then
@@ -287,7 +304,7 @@ do
             ./link_grib.csh $ICBC_DIR/NARR* .
         elif [ $REAN_STR == "ERA5" ]; then
             echo "Linking grib files... if this fails, read directions in the WRF-setups/README.md to download ERA5 data and make sure ICBC_DIR is set correctly."
-            ./link_grib.csh $ICBC_DIR/era_5_* .
+            ./link_grib.csh $ICBC_DIR/ERA5/era5_*$yy .
         else
             echo "I don't know which IC/BC files to link..."
         fi
@@ -316,7 +333,7 @@ do
         echo '    unlink $f' >> submit_wps.sh
         echo 'done' >> submit_wps.sh
     fi
-    qsub submit_wps.sh
+    #qsub submit_wps.sh
 
 
 
