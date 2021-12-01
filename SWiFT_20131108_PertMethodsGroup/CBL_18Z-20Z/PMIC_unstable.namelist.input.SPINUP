@@ -1,6 +1,6 @@
 &time_control
  run_days                  = 0,
- run_hours                 = 6
+ run_hours                 = 4,
  run_minutes               = 0,
  run_seconds               = 0,
  start_year                = 2013,    2013,    
@@ -10,14 +10,14 @@
  start_minute              = 00,      00,   
  start_second              = 00,      00,   
  end_year                  = 2013,    2013, 
- end_month                 = 11,      11,   
+ end_month                 = 11,      11,
  end_day                   = 08,      08,  
- end_hour                  = 20,      20,  
+ end_hour                  = 18,      18,  
  end_minute                = 00,      00,  
  end_second                = 00,      00,  
  interval_seconds          = 10800
  restart                   = .false.,
- restart_interval_m        = 30 
+ restart_interval_m        = 60 
  io_form_history           = 2
  io_form_restart           = 2
  io_form_input             = 2
@@ -35,11 +35,11 @@
  time_step                 = 5,
  time_step_fract_num       = 0, 
  time_step_fract_den       = 1,
- max_dom                   = 1,
+ max_dom                   = 2,
  s_we                      = 1,       1,
- e_we                      = 48,     961,
+ e_we                      = 480,     961,
  s_sn                      = 1,       1,
- e_sn                      = 48,     481,
+ e_sn                      = 480,     481,
  s_vert                    = 1,       1,
  e_vert                    = 88,      88,
  vert_refine_method        = 0,       0,
@@ -55,8 +55,8 @@
  hypsometric_opt           = 2,
  feedback                  = 0,
  smooth_option             = 0,
- !nproc_x                   = 4, !NCAR 
- !nproc_y                   = 4, !NCAR
+! nproc_x                   = 24,
+! nproc_y                   = 24,
  max_ts_locs               = 200,
  max_ts_level              = 88,
  eta_levels   = 1.00000,  0.99727,  0.99440,  0.99139,
@@ -111,7 +111,7 @@
  cell_pert                           = .false.,.false.,
  cell_pert_2d                        = .false.,.false.,
  cell_pert_2d_opt                    = 0,      0,
- cell_pert_1d                        = .false.,.true.,
+ cell_pert_1d                        = .false.,.false.,
  cell_tvcp                           = .false.,.false.,
  cell_pert_amp                       = 0,      0.78,
  pert_tsec                           = 0,      28.0,
@@ -173,9 +173,11 @@
  non_hydrostatic           = .true.,  .true.,
  pert_coriolis             = .true., .true.,
  use_baseparam_fr_nml      = .true.,
- spec_ideal                = .true.,
+ spec_init_perts           = .false.,
+ spec_ideal                = 1,
  spec_hfx                  = 175.0,
- spec_z0                   = 0.01,
+ spec_sf_heatrate          = 0.0,
+ spec_z0                   = 0.03,
  spec_lat                  = 33.6,
  /
  

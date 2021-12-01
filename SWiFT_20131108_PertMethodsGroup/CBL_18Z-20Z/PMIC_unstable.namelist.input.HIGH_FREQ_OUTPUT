@@ -1,29 +1,29 @@
 &time_control
  run_days                  = 0,
- run_hours                 = 6
+ run_hours                 = 2,
  run_minutes               = 0,
  run_seconds               = 0,
  start_year                = 2013,    2013,    
  start_month               = 11,      11,      
  start_day                 = 08,      08,     
- start_hour                = 14,      16,    
+ start_hour                = 18,      18,    
  start_minute              = 00,      00,   
  start_second              = 00,      00,   
  end_year                  = 2013,    2013, 
- end_month                 = 11,      11,   
+ end_month                 = 11,      11,
  end_day                   = 08,      08,  
  end_hour                  = 20,      20,  
  end_minute                = 00,      00,  
  end_second                = 00,      00,  
  interval_seconds          = 10800
- restart                   = .false.,
- restart_interval_m        = 30 
+ restart                   = .true.,
+ restart_interval_m        = 60 
  io_form_history           = 2
  io_form_restart           = 2
  io_form_input             = 2
  io_form_boundary          = 2
  debug_level               = 0
- history_interval_m        = 30,     10,   
+ history_interval_m        = 30,     1,   
  frames_per_outfile        = 1,      1,  
  override_restart_timers   = .true., 
  write_hist_at_0h_rst      = .false.,
@@ -111,7 +111,7 @@
  cell_pert                           = .false.,.false.,
  cell_pert_2d                        = .false.,.false.,
  cell_pert_2d_opt                    = 0,      0,
- cell_pert_1d                        = .false.,.true.,
+ cell_pert_1d                        = .false.,.false.,
  cell_tvcp                           = .false.,.false.,
  cell_pert_amp                       = 0,      0.78,
  pert_tsec                           = 0,      28.0,
@@ -173,9 +173,11 @@
  non_hydrostatic           = .true.,  .true.,
  pert_coriolis             = .true., .true.,
  use_baseparam_fr_nml      = .true.,
- spec_ideal                = .true.,
+ spec_init_perts           = .false.,
+ spec_ideal                = 1,
  spec_hfx                  = 175.0,
- spec_z0                   = 0.01,
+ spec_sf_heatrate          = 0.0,
+ spec_z0                   = 0.03,
  spec_lat                  = 33.6,
  /
  
