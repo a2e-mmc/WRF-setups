@@ -3,8 +3,7 @@ MMC NYSERDA Case
 Documented by: Pat Hawbecker (hawbecke@ucar.edu)
 Documented on: 2/21/22
 
-* Note *
-========
+*Note*
 All of the python scripts will require user changes for file paths, usernames,
 system settings, etc. Do not run any of the executables without first checking
 the files first.
