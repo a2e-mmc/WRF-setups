@@ -35,16 +35,16 @@ MAX_DOM="3"
 # DOMAIN CONFIG (default: "")
 DOM_STR=""
 # REANALYSIS TO USE (ERA, NARR, GFS, ERA5)
-REAN_STR="GFS"
+REAN_STR="ERA5"
 
 # LOCATION TO RUN WPS/WRF
-OUT_DIR_BASE="/glade/scratch/$USER/WRF/MMC/FINO1/20100512_to_20100526/GFSR_YSU_CHRN_GFS_NOSK_3DOM/${CASE_STR}"
+OUT_DIR_BASE="/glade/scratch/$USER/WRF/MMC/FINO1/20100512_to_20100526/ERA5_YSU_CHRN_ER5_NOSK_3DOM/${CASE_STR}"
 # LOCATION OF WPS EXECUTABLES
-WPS_DIR="$HOME/Models/WRF/WRFvMMC/WPS"
+WPS_DIR="/glade/work/hawbecke/Models/WRF/WRFvMMC/WPS"
 # LOCATION OF WHERE TO DOWNLOAD REANALYSIS DATA
 ICBC_DIR="/glade/scratch/$USER/WRF/ICBC"
 # LOCATION OF WRF EXECUTABLES
-EXE_DIR="$HOME/Models/WRF/WRFvMMC/WRF/run"
+EXE_DIR="/glade/work/hawbecke/Models/WRF/WRFvMMC/WRF/run"
 
 # SETUP COMPUTING ENVIRONMENT
 module purge
@@ -304,7 +304,7 @@ do
             ./link_grib.csh $ICBC_DIR/NARR* .
         elif [ $REAN_STR == "ERA5" ]; then
             echo "Linking grib files... if this fails, read directions in the WRF-setups/README.md to download ERA5 data and make sure ICBC_DIR is set correctly."
-            ./link_grib.csh $ICBC_DIR/ERA5/era5_*$yy .
+            #./link_grib.csh $ICBC_DIR/ERA5/era5_*$yy .
         else
             echo "I don't know which IC/BC files to link..."
         fi
