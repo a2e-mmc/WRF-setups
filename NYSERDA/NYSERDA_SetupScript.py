@@ -12,13 +12,13 @@ import copy
 #===============
 
 # Have you run this to create the first case yet?
-# ... if you haven't set this to true. Once you have
+# ... if you haven't, set this to true. Once you have
 # ... run WPS for the first case, you can run the 
 # ... program again to:
 #      - Overwrite the SST data
 #      - Create a tslist file
 #      - Create all the other cases
-first_time_running = True 
+first_time_running = False 
 
 # Directory where WRF runs will be created:
 #main_directory    = '/glade/scratch/hawbecke/WRF/MMC/NYSERDA/SENSITIVITY_SUITE/LES/'
@@ -33,7 +33,7 @@ wrf_geog_path = '/glade/work/hawbecke/geog/'
 # Case information dictionary location (to be created):
 case_dict_f = '/glade/u/home/hawbecke/Code/Python/assessment/studies/NYSERDA/NYSERDA_case_dict.py'
 
-max_dom = 2 # 2 - mesoscale only; 5 - Meso-to-LES
+max_dom = 5 # 2 - mesoscale only; 5 - Meso-to-LES
 
 # Which IC/BCs are you using:
 icbc_type = 'MERRA2'  # ERAI, ERA5, FNL
@@ -41,6 +41,13 @@ icbc_type = 'MERRA2'  # ERAI, ERA5, FNL
 icbc_directory = '/glade/work/hawbecke/public_get_merra2/merra2/wrf-interm/2020/202004/'
 # Location of met_em files (if overwriting with SST; met_dir from NYSERDA_OverwriteSST.py)):
 met_dir = '/glade/work/hawbecke/MMC/NYSERDA/test/met_em/{}'.format(icbc_type) 
+
+
+#==================================================================================================#
+#==================================================================================================#
+#===============================   END USER MODIFICATIONS   =======================================#
+#==================================================================================================#
+#==================================================================================================#
 
 # Generate eta levels:
 # -------------------
@@ -177,7 +184,7 @@ setup_dict = {
              'dtramp_min' : 60.0, 
                'xwavenum' : 7, 
                'ywavenum' : 7,
-        'shalwater_rough' : 0,
+           'shalwater_z0' : 0,
                 'gwd_opt' : 1,
       'diff_6th_slopeopt' : [1,0,0,0,0],
       'auxhist15_begin_h' : [0,0,0,0,0],
@@ -190,14 +197,19 @@ setup_dict = {
 #       'auxinput5_inname' : "cellpert_d<domain>",
 #     'auxinput5_interval' : [100000,100000,100000,  10, 10], 
 #      'io_form_auxinput5' : 2,
-              'cell_pert' : [False,False,False,True,True],
+#              'cell_pert' : [False,False,False,True,True],
 #              'cell_tvcp' : [False,False,False,True,True],
 #              'pert_tsec' : [100., 100., 100., 100., 20.],
 #           'cell_kbottom' : [3, 3, 3, 3, 3],  
 #                  'm_opt' : [0,0,0,1,1],
                     'c_k' : [0.1],
-             'm_pblh_opt' : [1],
-           'scpm_jdm_opt' : [0,0,0,1,1],
+             'm_pblh_opt' : [0,0,1,1,1],
+                'cpm_opt' : [0,0,0,1,1],
+              'cpm_lim_z' : 50.0,
+                 'cpm_eb' : [0,0,0,1,1],
+                 'cpm_wb' : [0,0,0,1,1],
+                 'cpm_nb' : [0,0,0,1,1],
+                 'cpm_sb' : [0,0,0,1,1],
                   'm_opt' : [0,0,0,1,1],
     
 }
@@ -275,62 +287,6 @@ f.write('            }\n')
 f.close()
 
 
-# Create tslist file:
-twr_lat = [ 39.969278,  39.546772,  39.2717,  41.325567]
-twr_lon = [-72.716692, -73.428892, -73.8892, -70.568883]
-twr_names = ['E05','E06','Atlantic Shores','DOE_MV']
-twr_abbreviation = ['E05','E06','ATS','DMV']
-
-if not first_time_running:
-    if max_dom == 5:
-        les_dom = xr.open_dataset('{}/{}/wrfinput_d05'.format(main_directory,case_dict['DFLT']['case_str'])).squeeze()
-        stn_of_interest = 'E06'
-
-        stn_lat = twr_lat[np.where(np.asarray(twr_names)==stn_of_interest)[0][0]]
-        stn_lon = twr_lon[np.where(np.asarray(twr_names)==stn_of_interest)[0][0]]
-
-        les_lat = les_dom.XLAT
-        les_lon = les_dom.XLONG
-
-        dist = ((les_lat-stn_lat)**2 + (les_lon-stn_lon)**2)**0.5
-        stnj,stni = np.where(dist==np.nanmin(dist))
-
-        nx = 9
-        ny = 9
-        x_int = 14
-        y_int = 14
-
-        x_s = stni - ((nx-1)*0.5)*x_int
-        x_e = stni + ((nx-1)*0.5)*x_int
-
-        y_s = stnj - ((ny-1)*0.5)*y_int
-        y_e = stnj + ((ny-1)*0.5)*y_int
-
-        x_inds = np.arange(x_s,x_e+1,x_int)
-        y_inds = np.arange(y_s,y_e+1,y_int)
-
-        count = 0
-
-        stn_lats = []
-        stn_lons = []
-        stn_names = []
-
-        for i in x_inds:
-            i = int(i)
-            for j in y_inds:
-                j = int(j)
-                stn_lats += [float(les_lat[j,i].data)]
-                stn_lons += [float(les_lon[j,i].data)]
-                stn_names += ['T{0:03d}'.format(count+1)]
-                count += 1
-
-        # Combine meso and LES towers:
-        twr_lat += stn_lats
-        twr_lon += stn_lons
-        twr_names += stn_names
-        twr_abbreviation += stn_names
-
-
 
 case_dates = pd.date_range(case_start,case_end,freq=case_delta)
 #met_em_dir = '/glade/work/hawbecke/MMC/NYSERDA/met_em/MERRA2/orig/'
@@ -345,6 +301,7 @@ if first_time_running:
     cases_to_create = [cases[0]]
 else:
     cases_to_create = cases
+    cases_to_create = cases[:2]
 
 for cc,case in enumerate(cases_to_create):
     sst = case_dict_of_interest[case]['sst']
@@ -372,9 +329,9 @@ for cc,case in enumerate(cases_to_create):
         setup_dict['sf_ocean_physics'] = 0
         
     if case_dict_of_interest[case]['roughness'] == 'SHAL':
-        setup_dict['shalwater_rough'] = 1
+        setup_dict['shalwater_z0'] = 1
     else:
-        setup_dict['shalwater_rough'] = 0
+        setup_dict['shalwater_z0'] = 0
     
     if case_dict_of_interest[case]['land_surface'] == 'USGS':
         setup_dict['geog_data_res'] = 'usgs_lakes+30s+topobath_30s'
@@ -395,7 +352,6 @@ for cc,case in enumerate(cases_to_create):
     wrf_setup.write_submission_scripts(submission_dict=submission_dict,hpc='cheyenne',restart_args=True)
     wrf_setup.write_io_fieldnames(io_fields={'myoutfields.txt':io_fields_meso,
                                              'myoutfieldsLES.txt': io_fields_LES})
-    wrf_setup.create_tslist_file(lat=twr_lat,lon=twr_lon,twr_names=twr_names,twr_abbr=twr_abbreviation)
 
     if not first_time_running:
         wrf_setup.link_metem_files(met_em_dir)
@@ -452,6 +408,63 @@ for cc,case in enumerate(cases_to_create):
             wrf_setup.SetupNamelist(new_setup_dict)
             wrf_setup.write_namelist('input','namelist.input_{}'.format((ascii_lowercase[dd+4]).upper()))
             
+    # Create tslist file:
+    twr_lat = [ 39.969278,  39.546772,  39.2717,  41.325567]
+    twr_lon = [-72.716692, -73.428892, -73.8892, -70.568883]
+    twr_names = ['E05','E06','Atlantic Shores','DOE_MV']
+    twr_abbreviation = ['E05','E06','ATS','DMV']
+
+    if not first_time_running:
+        if max_dom == 5:
+            les_dom = xr.open_dataset('{}/{}/met_em.d05.2020-04-06_00:00:00.nc'.format(main_directory,case_dict['DFLT']['case_str'])).squeeze()
+            stn_of_interest = 'E06'
+
+            stn_lat = twr_lat[np.where(np.asarray(twr_names)==stn_of_interest)[0][0]]
+            stn_lon = twr_lon[np.where(np.asarray(twr_names)==stn_of_interest)[0][0]]
+
+            les_lat = les_dom.XLAT_M
+            les_lon = les_dom.XLONG_M
+
+            dist = ((les_lat-stn_lat)**2 + (les_lon-stn_lon)**2)**0.5
+            stnj,stni = np.where(dist==np.nanmin(dist))
+
+            nx = 9
+            ny = 9
+            x_int = 14
+            y_int = 14
+
+            x_s = stni - ((nx-1)*0.5)*x_int
+            x_e = stni + ((nx-1)*0.5)*x_int
+
+            y_s = stnj - ((ny-1)*0.5)*y_int
+            y_e = stnj + ((ny-1)*0.5)*y_int
+
+            x_inds = np.arange(x_s,x_e+1,x_int)
+            y_inds = np.arange(y_s,y_e+1,y_int)
+
+            count = 0
+
+            stn_lats = []
+            stn_lons = []
+            stn_names = []
+
+            for i in x_inds:
+                i = int(i)
+                for j in y_inds:
+                    j = int(j)
+                    stn_lats += [float(les_lat[j,i].data)]
+                    stn_lons += [float(les_lon[j,i].data)]
+                    stn_names += ['T{0:03d}'.format(count+1)]
+                    count += 1
+
+            # Combine meso and LES towers:
+            twr_lat += stn_lats
+            twr_lon += stn_lons
+            twr_names += stn_names
+            twr_abbreviation += stn_names
+
+    wrf_setup.create_tslist_file(lat=twr_lat,lon=twr_lon,twr_names=twr_names,twr_abbr=twr_abbreviation)
+
             
 if first_time_running:
     print('Success! To generate the full suite of cases, please do the following:')
