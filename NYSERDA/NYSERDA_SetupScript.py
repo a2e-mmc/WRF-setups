@@ -18,7 +18,7 @@ import copy
 #      - Overwrite the SST data
 #      - Create a tslist file
 #      - Create all the other cases
-first_time_running = False 
+first_time_running = True  
 
 # Directory where WRF runs will be created:
 #main_directory    = '/glade/scratch/hawbecke/WRF/MMC/NYSERDA/SENSITIVITY_SUITE/LES/'
@@ -33,7 +33,7 @@ wrf_geog_path = '/glade/work/hawbecke/geog/'
 # Case information dictionary location (to be created):
 case_dict_f = '/glade/u/home/hawbecke/Code/Python/assessment/studies/NYSERDA/NYSERDA_case_dict.py'
 
-max_dom = 5 # 2 - mesoscale only; 5 - Meso-to-LES
+max_dom = 2 # 2 - mesoscale only; 5 - Meso-to-LES
 
 # Which IC/BCs are you using:
 icbc_type = 'MERRA2'  # ERAI, ERA5, FNL
@@ -301,7 +301,6 @@ if first_time_running:
     cases_to_create = [cases[0]]
 else:
     cases_to_create = cases
-    cases_to_create = cases[:2]
 
 for cc,case in enumerate(cases_to_create):
     sst = case_dict_of_interest[case]['sst']
