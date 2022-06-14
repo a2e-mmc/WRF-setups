@@ -3,7 +3,7 @@
  max_dom = 3,
  start_date = 'START_DATE','START_DATE','START_DATE','START_DATE','START_DATE',
  end_date   = 'END_DATE','END_DATE','END_DATE','END_DATE','END_DATE',
- interval_seconds = 21600,
+ interval_seconds = 3600,
  io_form_geogrid = 2,
 /
 
