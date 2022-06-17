@@ -41,6 +41,7 @@
  time_step_dfi                       = 12,
  time_step_fract_num                 = 0,
  time_step_fract_den                 = 10,
+ reasonable_time_step_ratio          = 8.
  max_dom                             = 2,
  s_we                                = 1,     1,
  e_we                                = 890,  1001,
