@@ -38,7 +38,7 @@
  time_step                = 15,
  time_step_fract_num      = 0,
  time_step_fract_den      = 1,
- max_dom                  = 5,
+ max_dom                  = 2,
  s_we                     = 1,    1,    1,    1,    1,    
  e_we                     = 480,  481,  631,  601,  601,  
  s_sn                     = 1,    1,    1,    1,    1,    
