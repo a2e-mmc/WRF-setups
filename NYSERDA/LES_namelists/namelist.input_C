@@ -94,7 +94,7 @@
  tslist_unstagger_winds   = .true.,
  tslist_turbulent_output  = 1,
  max_ts_locs              = 4,
- max_ts_level             = 51,
+ max_ts_level             = 66,
  ts_buf_size              = 100,
 /
 &physics
@@ -166,11 +166,15 @@
  w_damping                = 1,
  gwd_opt                  = 1,    1,    1,    1,    1,    
  diff_6th_slopeopt        = 1,    0,    0,    0,    0,    
- cell_pert                = .false.,.false.,.false.,.true.,.true.,
  m_opt                    = 0,    0,    0,    1,    1,    
  c_k                      = 0.1,  0.1,  0.1,  0.1,  0.1,  
- m_pblh_opt               = 1,    1,    1,    1,    1,    
  cpm_opt                  = 0,    0,    0,    1,    1,    
+ cpm_meso_pblh            = 0,    0,    1,    1,    1,    
+ cpm_lim_z                = 50.0,
+ cpm_eb                   = 0,    0,    0,    1,    1,    
+ cpm_wb                   = 0,    0,    0,    1,    1,    
+ cpm_nb                   = 0,    0,    0,    1,    1,    
+ cpm_sb                   = 0,    0,    0,    1,    1,    
 /
 &bdy_control
  spec_bdy_width           = 5,
