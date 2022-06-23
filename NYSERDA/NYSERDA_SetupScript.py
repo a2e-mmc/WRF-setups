@@ -18,7 +18,7 @@ import copy
 #      - Overwrite the SST data
 #      - Create a tslist file
 #      - Create all the other cases
-first_time_running = False
+first_time_running = True
 
 # Directory where WRF runs will be created:
 #main_directory    = '/glade/scratch/hawbecke/WRF/MMC/NYSERDA/SENSITIVITY_SUITE/LES/'
@@ -41,6 +41,12 @@ icbc_type = 'MERRA2'  # ERAI, ERA5, FNL
 icbc_directory = '/glade/work/hawbecke/public_get_merra2/merra2/wrf-interm/2020/202004/'
 # Location of met_em files (if overwriting with SST; met_dir from NYSERDA_OverwriteSST.py)):
 met_dir = '/glade/work/hawbecke/MMC/NYSERDA/met_em/{}'.format(icbc_type) 
+
+#==================================================================================================#
+#==================================================================================================#
+#===============================   END USER MODIFICATIONS   =======================================#
+#==================================================================================================#
+#==================================================================================================#
 
 # Generate eta levels:
 # -------------------
@@ -247,10 +253,10 @@ case_dict = {
     'NAVO':{'sst':'NAVO','diurnal_var':'NOSK','roughness':'CHRN','land_surface':'MDIS','color':'m'},
     'OSTI':{'sst':'OSTIA','diurnal_var':'NOSK','roughness':'CHRN','land_surface':'MDIS','color':'orange'},
     'GO16':{'sst':'GOES16','diurnal_var':'NOSK','roughness':'CHRN','land_surface':'MDIS','color':'b'},
-    #'SKNT':{'sst':'orig','diurnal_var':'SKNT','roughness':'CHRN','land_surface':'MDIS','color':'g'},
-    #'OMLM':{'sst':'orig','diurnal_var':'OMLM','roughness':'CHRN','land_surface':'MDIS','color':'darkblue'},
+    'SKNT':{'sst':'orig','diurnal_var':'SKNT','roughness':'CHRN','land_surface':'MDIS','color':'g'},
+    'OMLM':{'sst':'orig','diurnal_var':'OMLM','roughness':'CHRN','land_surface':'MDIS','color':'darkblue'},
     'SHAL':{'sst':'orig','diurnal_var':'NOSK','roughness':'SHAL','land_surface':'MDIS','color':'goldenrod'},
-    #'USGS':{'sst':'orig','diurnal_var':'NOSK','roughness':'CHRN','land_surface':'USGS','color':'darkmagenta'},
+    'USGS':{'sst':'orig','diurnal_var':'NOSK','roughness':'CHRN','land_surface':'USGS','color':'darkmagenta'},
 
 }
 cases = list(case_dict.keys())
