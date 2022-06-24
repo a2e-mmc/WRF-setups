@@ -118,7 +118,7 @@
  num_land_cat              =  21,
  sf_urban_physics          =  0,  0,  0,  0,  0,  0,
  wp_opt                    =  0,  0,  0,  0,  0,  3,
- turbine_opt               =  16,
+ turbine_opt               =  15,
  n_turbines                =  21,
  n_timeseries              =  100,
  n_tmeturb                 =  2100,
