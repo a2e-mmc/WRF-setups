@@ -3,7 +3,7 @@ We added the turbulence field along the inflow boundaries of the innermost micro
 
 ## 1. Turbulence file
 - As mentioned above, the turbulence field can be generated using the code for the Mann method available in Gilling’s report [Gilling 2009]. 
-- The turbulence inflow data in a file was written in ASCII format in 10-second interval for 10-min period. The file-name looks like ‘inflowSynthDataSSSS-EEEE.txt, where SSSS and EEEE represent the start and end time in minutes (e.g., 0000-0010, 0010-0020, etc.). Each 10-min file has data size of [nxyCnfg,nzCnfg,ncomp, ntCnfg], representing horizontal grid points as nxyCnfg, vertical grid points as nzCnfg, wind components as ncomp, and the number of inflow planes ntConfg. Data in each file is written as:\
+- The turbulence inflow data in a file was written in ASCII format in 10-second interval for 10-min period. The file-name looks like ‘inflowSynthDataSSSS-EEEE.txt, where SSSS and EEEE represent the start and end time in minutes (e.g., 0000-0010, 0010-0020, etc.). Each 10-min file has data size of [nxyCnfg,nzCnfg,ncomp, ntCnfg], representing horizontal grid points as nxyCnfg, vertical grid points as nzCnfg, wind components as ncomp, and the number of inflow planes ntConfg. Data in each file is written as:
 `write* nxyCnfg, nzCnfg`\
 `for loop i=1 to 61`     #61 ten seconds steps\
 `write* ntCnfg[i]`  #time in minutes\
@@ -23,13 +23,13 @@ To apply the synthetic turbulence in the innermost domain in WRF, the following 
 *ntCnfg              = 61,* \
 *start_synthturb     = 2100,*\
 *nfiles_synthturb    = 12,*\
-*sides_synthturb     = 'WN'*\
+*sides_synthturb     = 'WN'*
 
 The input variables above are.\
 *use_synthturb*: ‘true’ for using the turbulence, otherwise ‘false.’\
 *start_synthturb*: time (in minutes) to add turbulence field, relative to the beginning of the simulation \
 *nfiles_synthturb*: number of 10-minute files, e.g., inflowSynthData0000-0010.txt, etc. \
-*sides_synthturb*: boundary names to add the turbulence, e.g., SW is for South and West\
+*sides_synthturb*: boundary names to add the turbulence, e.g., SW is for South and West
 
 ### **References**
 - Mann, J (1998). Wind field simulation. Prob. Engng. Mech. 13(4):269-282
