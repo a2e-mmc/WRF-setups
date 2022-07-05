@@ -117,7 +117,7 @@
  ntCnfg                    = 61,
  use_synthturb             = .false., .false., .false., .false., .true., 
  start_synthturb           =  1020,
- nfiles_synthturb          =  12,
+ nfiles_synthturb          =  1,
  sides_synthturb           = 'W'
  /
 
