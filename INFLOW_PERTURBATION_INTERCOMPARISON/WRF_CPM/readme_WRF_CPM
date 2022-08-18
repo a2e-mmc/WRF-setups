@@ -1,0 +1,142 @@
+The subfolders within this directory (WRF_CPM) contain files to execute WRF
+simulations using the cell perturbation method (CPM) in idealized, one-way
+nested, two-domain setups, with the CPM used in the nested domain. Case
+studies representing three stability classes, STABLE, NEUTRAL, and UNSTABLE,
+are provided. Files to execute the single-domain LES with periodic lateral
+boundary conditions used both to provide forcing for the two-domain setups,
+and to evalute the results of the nested LES domain, are provided as well.
+
+The two-domain simulations are set up to produce LES solutions on the
+nested domains that can be compared directly with the corresponding periodic
+LES solutions. This is achieved by using time- and domain-averaged vertical
+profiles from the periodic LES solutions, after approaching nearly steady mean
+profiles, turbulence statistics, and boundary-layer structure over time, as the
+input_sounding files that determine the initial condition for the outer domain
+of the two-domain setup. An averaging period of four hours is chosen for
+preparation of the input, which removes all turbulent fluctuations from the
+periodic LES profiles, hence approximating idealized mesoscale forcing.
+
+The outer domain initialized with these profiles is then solved as a pure
+advection solution, with no explicit diffusion or other forcing, so that the
+inflow to the nested LES domain remains constant over time. Since this
+time-invariant forcing (mean ABL depth, shear, veer, and temperature) is
+identically the time-average of the corresponding periodic LES domain, the
+nested LES domain solution should recover comparable turbulence statistics
+to the periodic solution as the flow develops within the nested LES. This
+setup enables a straightforward quantitative evaluation of the efficacies of
+various inflow perturbation approaches to accelerate turbulence formation
+and equilibration processes for LES domains forced with mesoscale or
+time-averaged forcing data that does not explicitly contain resolved-scale
+turbulence information.
+
+For each of the three stability case studies, the periodic LES used both
+to force and to evaluate the nested LES within the two-domain setup were
+executed with the following forcing conditions:
+   Geostrophic wind speed of 10 m/s,
+   Roughness length = 0.1 m,
+   Spinup time of approximately 48 hours under neutral forcing
+   Continuation of simulations of stable and unstable conditions using
+   sensible heat fluxes of -10, and 100 W/m^2, respectively, for sufficient
+   time to achieve nearly steady conditions over time, as described below.
+
+The three stability case studies use different grid spacings in the horizontal
+(dx) and vertical (dz) direction, as well as different domain depths (Lz), and
+damping layer depths (Dz), as shown in the table below.
+
+               dx      dz      Lz      Dz
+Stable         6        2    1600     400
+Neutral        12       4    2400     800
+Unstable       24       8    3200     800
+
+All setups use the same number of horizontal grid points in their periodic
+and nested-domain setups, with periodic domains using 481X481 grid points
+in the x- and y-directions, and the two-domain setups using 481X481
+and 481X961 grid points in the x- and y-directions for the outer and
+nested domains, respectively.
+
+While the case studies all use the same geostrophic wind speed, the angle 
+varies slightly for each stability class to ensure approximately westerly
+flow direction between the surface and 200 m. This alignment of the flow
+with the computational grid facilitates a reduction in computational expense
+within the nested LES by enabling use of a rectangular domain elongated in
+the mean flow direction.
+
+Other details of the computational domains can be obtained from the
+namelist.input files in the subdirectories.
+
+The initial conditions for the two-domain setups are obtained from the last
+four hours of the periodic LES. This time window of data are also used for
+evaluation of the nested LES in the two-domain setup.
+
+NEUTRAL CASE
+
+For the neutral case study, the periodic LES domain was run for 45 hours with
+a surface heat flux value of 0, specified using namelist parameters
+spec_hfx = 0, and spec_ideal = 1, the latter enabling a user-specified value
+of spec_hfx to be applied at each model surface grid point.
+
+Spinup time = 42 hours
+0001/01/01/00:00 to 0001/01/02/18:00
+
+Production time = 4 hours
+0001/01/02/18:00 to 0001/01/02/22:00
+
+
+STABLE CASE
+
+For the stable case study, a neutral LES was run for XX hours, as in the
+neutral case, after which an additional 22 hours were simulated using
+spec_hfx = -10 (W/m^2).
+
+Spinup time = 48 hours, neutral conditions, spec_hfx = 0
+0001/01/01/00:00 to 0001/01/03/00:00
+
+Spinup time = 33 hours, stable conditions, spec_hfx = -10
+0001/01/03/00:00 to 0001/01/03/19:00
+
+Production time = 4 hours, stable conditions, spec_hfx = -10
+0001/01/03/19:00 to 0001/01/03/23:00
+
+UNSTABLE CASE
+
+For the unstable case study, a neutral LES was run for 48 hours, as for the
+neutral case, after which an additional 33 hours were simulated using
+spec_hfx = 100 (W/m^2).
+
+Spinup time = 48 hours, neutral conditions, spec_hfx = 0
+0001/01/01/00:00 to 0001/01/03/00:00
+
+Spinup time = 33 hours, unstable conditions, spec_hfx = 100
+0001/01/03/00:00 to 0001/01/04/06:00
+
+Production time = 4 hours, unstable conditions, spec_hfx = 100
+0001/01/04/06:00 to 0001/01/04/10:00
+
+For each of the case studies, the initial condition (input_sounding) for
+the two-domain setup was computed from horizontal-average values of the
+periodic simuations output, obtained at 10-minute frequency, for the last 4
+hours. 
+
+Each of the corresponding two-domain setups were then run for 5 hours using
+the corresponding input_sounding file, with the first hour used to spin up
+the nest, and the last four hours used for analysis.
+
+Analysis data for all simulations include full 3D fields at 10-minute
+frequency, and horizontal planes at ten heights (specified in the namelist
+file) at 30-second frequency. 
+
+Additional README files containing step-by-step instructions to complete all
+of the above described simulations are contained in the subdirectories for
+each stability case study below this directory.
+
+While the particulars of the geostrophic wind direction and durations of the
+simulations used in this study are unique to the WRF model in the chosen
+configuration, the same procedure can be followed using other codes,
+which may predict slightly different solutions, due to different physics
+and/or numerics. For example, SOWFA could be used to run both the periodic
+LES to obtain both forcing and evaluation data, as well as another simulation
+using lateral boundary conditions specified from the time-averaged periodic
+LES output, similar to what was done with the WRF model. In this case,
+however, the actual LES fields being compared would both be obtained
+from the SOWFA solver, yieldig a consistent data set to examine the
+efficacies of inflow perturbation entirely within that or any other code base.

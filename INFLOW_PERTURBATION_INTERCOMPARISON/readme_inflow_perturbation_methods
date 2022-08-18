@@ -1,0 +1,22 @@
+This folder contains example files to run various inflow perturbation methods.
+
+WRF_CPM:
+
+This folder contains files to execute
+
+     1. Idealized WRF two-domain, one-way nested simulations using
+        the cell perturbation method on the nested LES domain,
+
+     2. Periodic single-domain LES to generate data to force and
+     	evaluate the nested LES results from the two-domain setup.
+
+MANN:
+...
+
+
+TURBSIM:
+...
+
+
+Additional readme files are located in each subdirectory with specific
+information regarding those particular setupd and methods.
