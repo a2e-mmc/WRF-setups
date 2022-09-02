@@ -57,9 +57,9 @@ nested domains, respectively.
 While the case studies all use the same geostrophic wind speed, the angle 
 varies slightly for each stability class to ensure approximately westerly
 flow direction between the surface and 200 m. This alignment of the flow
-with the computational grid facilitates a reduction in computational expense
+with the computational grid enables a reduction in computational expense
 within the nested LES by enabling use of a rectangular domain elongated in
-the mean flow direction.
+the mean flow direction, in which the turbulence equilibration is assessed.
 
 Other details of the computational domains can be obtained from the
 namelist.input files in the subdirectories.
@@ -68,49 +68,57 @@ The initial conditions for the two-domain setups are obtained from the last
 four hours of the periodic LES. This time window of data are also used for
 evaluation of the nested LES in the two-domain setup.
 
+
 NEUTRAL CASE
 
-For the neutral case study, the periodic LES domain was run for 45 hours with
+For the neutral case study, the periodic LES domain was run for 48 hours with
 a surface heat flux value of 0, specified using namelist parameters
 spec_hfx = 0, and spec_ideal = 1, the latter enabling a user-specified value
-of spec_hfx to be applied at each model surface grid point.
+of spec_hfx to be applied at each model surface grid point. The geostrophic
+wind direction is 286.0 degrees clockwise from North (Northwesterly flow),
+yielding nearly westerly flow for the last 4 hours of the simulation.
 
-Spinup time = 42 hours
-0001/01/01/00:00 to 0001/01/02/18:00
+Spinup time = 44 hours
+0001/01/01/00:00 to 0001/01/02/20:00
 
 Production time = 4 hours
-0001/01/02/18:00 to 0001/01/02/22:00
+0001/01/02/20:00 to 0001/01/03/00:00
 
 
 STABLE CASE
 
-For the stable case study, a neutral LES was run for XX hours, as in the
-neutral case, after which an additional 22 hours were simulated using
-spec_hfx = -10 (W/m^2).
+For the stable case study, a neutral LES was run for 48 hours, with
+spec_hfx = 0.0, after which an additional 35 hours were simulated using
+spec_hfx = -10 (W/m^2). The geostrophic wind direction is 296.0 degrees
+clockwise from North (Northwesterly flow), yielding nearly westerly flow
+for the last 4 hours of the simulation.
 
 Spinup time = 48 hours, neutral conditions, spec_hfx = 0
 0001/01/01/00:00 to 0001/01/03/00:00
 
-Spinup time = 33 hours, stable conditions, spec_hfx = -10
-0001/01/03/00:00 to 0001/01/03/19:00
+Spinup time = 31 hours, stable conditions, spec_hfx = -10
+0001/01/03/00:00 to 0001/01/04/07:00
 
 Production time = 4 hours, stable conditions, spec_hfx = -10
-0001/01/03/19:00 to 0001/01/03/23:00
+0001/01/07/07:00 to 0001/01/04/11:00
+
 
 UNSTABLE CASE
 
-For the unstable case study, a neutral LES was run for 48 hours, as for the
-neutral case, after which an additional 33 hours were simulated using
-spec_hfx = 100 (W/m^2).
+For the unstable case study, a neutral LES was run for 48 hours with
+spec_hfx = 0.0, after which an additional 33 hours were simulated using
+spec_hfx = 100 (W/m^2).  The geostrophic wind direction is 281.0 degrees
+clockwise from North (Northwesterly flow), yielding nearly westerly flow
+for the last 4 hours of the simulation.
 
 Spinup time = 48 hours, neutral conditions, spec_hfx = 0
 0001/01/01/00:00 to 0001/01/03/00:00
 
-Spinup time = 33 hours, unstable conditions, spec_hfx = 100
-0001/01/03/00:00 to 0001/01/04/06:00
+Spinup time = 39 hours, unstable conditions, spec_hfx = 100
+0001/01/03/00:00 to 0001/01/04/15:00
 
 Production time = 4 hours, unstable conditions, spec_hfx = 100
-0001/01/04/06:00 to 0001/01/04/10:00
+0001/01/04/15:00 to 0001/01/04/19:00
 
 For each of the case studies, the initial condition (input_sounding) for
 the two-domain setup was computed from horizontal-average values of the
