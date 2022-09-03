@@ -137,6 +137,13 @@ Additional README files containing step-by-step instructions to complete all
 of the above described simulations are contained in the subdirectories for
 each stability case study below this directory.
 
+To follow our workflow, make the following three directories
+STABLE
+UNSTABLE
+NEUTRAL
+and follow instructions from the readme files contained within those
+directories provided here.
+
 While the particulars of the geostrophic wind direction and durations of the
 simulations used in this study are unique to the WRF model in the chosen
 configuration, the same procedure can be followed using other codes,

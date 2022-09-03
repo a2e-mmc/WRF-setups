@@ -1,6 +1,6 @@
 &time_control
  run_days                  = 0,
- run_hours                 = 8,
+ run_hours                 = 4,
  run_minutes               = 0,
  run_seconds               = 00,
  start_year                = 0001,

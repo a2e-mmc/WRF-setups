@@ -1,13 +1,14 @@
-The three subdirectories below this directory contain the files to run
-both the 2-domain NESTED_LES and single-domain PERIODIC_LES* simulations
-comprising the neutral case study.
+The three subdirectories below this NEUTRAL directory contain the files to run
+both the 2-domain NESTED_LES and single-domain PERIODIC_LES simulations
+comprising the NEUTRAL case study.
 
 Subdirectory NESTED_LES contains files to run the 2-domain simulations.
 Perturbations are applied around all four lateral boundaries of 
 the nested LES domain (domain 2), with amplitudes determined by the Eckert
 number formulation, cpm_opt = 2.
 
-To execute these steps, make a directory called NESTED_LES and go there.
+To execute these steps, make a directory called NESTED_LES within directory
+NEUTRAL and go there.
 
 Instructions to execute these simulations using the files in the NESTED_LES directory are as follows:
 
@@ -37,9 +38,10 @@ Instructions to execute these simulations using the files in the NESTED_LES dire
 
 This should generate wrfrst*, wrfout* and horizontal_slice* files for d01 and d02 each hour.
 
-Each production run took about 4 hours of wall clock time using 576 processors on an LLNL linux cluster.
+Each production run took about 4 hours of wall clock time using 576 processors on a typical linux cluster.
 
-13. To use the python analysis notebooks corresponding to this case, make two additional directories:
+13. To use the python analysis notebooks corresponding to this case, make two additional directories 
+within directory /NEUTRAL/NESTED_LES
 
    2D_hoz_slices
 
@@ -72,7 +74,7 @@ and everything should "just work". Only *d02* are analyzed, but best to keep
 the files together.
 
 For the periodic LES, make two directories PERIODIC_LES_SPINUP and
-PERIODIC_LES_PRODUCTION as in this directory
+PERIODIC_LES_PRODUCTION within directory NEUTRAL
 
 Subdirectories PERIODIC_LES_SPINUP and PERIODIC_LES_PRODUCTION here contain
 the files to run the single-domain periodic LES.
@@ -80,7 +82,7 @@ the files to run the single-domain periodic LES.
 Instructions to execute these simulations using the files in the PERIODIC_LES_SPINUP
 and PERIODIC_LES_PRODUCTION directories are as follows:
 
-Go to directory  PERIODIC_LES_SPINUP
+Go to directory PERIODIC_LES_SPINUP
 
 1. Copy input_sounding_neutral_case_periodic_les_spinup to input_sounding
 
@@ -88,13 +90,13 @@ Go to directory  PERIODIC_LES_SPINUP
 
 3. Run ideal.exe to create wrfinput_d01
 
-4. Run wrf.exe for the first 8 hours of spinup. 
-
-Ths workflow was broken into 8-hour simulations, each of which took approximately 12 hours
-of wall clock time using 576 processors on an LLNL linux cluster. Depending on your HPC,
-you may be able to run all 42 hours of spinup at one time. If you choose to run 42 hours at
-once, you can skip steps 5-14. However you choose to simulate the 48 hours, when completed
+This workflow is broken into 8-hour simulation blocks, each of which took about 12 hours
+of wall clock time using 576 processors on a typical linux cluster. Depending on your HPC,
+you may be able to run all 44 hours of spinup at one time. If you choose to run 48 hours at
+once, you can skip steps 5-14. However you choose to simulate the 44 hours, when completed
 follow instructions beginning at step 15 for the PRODUCTION runs.
+
+4. Run wrf.exe for the first 8 hours of spinup. 
 
 5. Copy namelist.input_01_01_0800_01_01_1600_periodic_neutral_case_spinup to namelist.input
 
@@ -112,13 +114,13 @@ follow instructions beginning at step 15 for the PRODUCTION runs.
 
 12. Run wrf.exe for the fifth 8 hours of spinup
 
-13. Copy namelist.input_01_02_1600_01_03_0000_periodic_neutral_case_spinup to namelist.input
+13. Copy namelist.input_01_02_1600_01_02_2000_periodic_neutral_case_spinup to namelist.input
 
-14. Run wrf.exe for the sixth 8 hours of spinup (48 hours total)
+14. Run wrf.exe for the last 4 hours of spinup (44 hours total)
 
 Go to directory PERIODIC_LES_PRODUCTION
 
-15. Copy restart file wrfrst_d01_0001-01-02_20:00:00 from PERIODIC_LES_SPINUP here
+15. Copy restart file wrfrst_d01_0001-01-02_20:00:00 from PERIODIC_LES_SPINUP to here
 
 16. Copy namelist.input_01_02_2000_01_02_2100_periodic_neutral_case_production_hour_1 to namelist.input
 
@@ -140,7 +142,8 @@ This should generate wrfrst*, wrfout* and horizontal_slice* files for d01 for ea
 
 Each production run took about 4 hours of wall clock time using 576 processors on an LLNL linux cluster.
 
-13. To use the python analysis notebooks corresponding to this case, make two additional directories:
+24. To use the python analysis notebooks corresponding to this case, make two additional directories
+within directory NEUTRAL/PERIODIC_LES_PRODUCTION
 
    2D_hoz_slices
 
@@ -148,10 +151,10 @@ Each production run took about 4 hours of wall clock time using 576 processors o
 
 and copy
 
-horizontal_slices_d01_0001-01-01_01:00:00
-horizontal_slices_d01_0001-01-01_02:00:00
-horizontal_slices_d01_0001-01-01_03:00:00
-horizontal_slices_d01_0001-01-01_04:00:00
+horizontal_slices_d01_0001-01-02_20:00:00
+horizontal_slices_d01_0001-01-02_21:00:00
+horizontal_slices_d01_0001-01-02_22:00:00
+horizontal_slices_d01_0001-01-02_23:00:00
 
 to
 
@@ -159,10 +162,10 @@ to
 
 and copy
 
-   wrfout_d01_0001-01-01_01:00:00
-   wrfout_d01_0001-01-01_02:00:00
-   wrfout_d01_0001-01-01_03:00:00
-   wrfout_d01_0001-01-01_04:00:00
+   wrfout_d01_0001-01-02_20:00:00
+   wrfout_d01_0001-01-02_21:00:00
+   wrfout_d01_0001-01-02_22:00:00
+   wrfout_d01_0001-01-02_23:00:00
 
 to
 
