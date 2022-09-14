@@ -12,6 +12,7 @@ the files first.
 
 
 Files in this directory:
+
  - `DownloadSST.py`
     Python script to download the necessary SST files. This script should be 
     executed within the directory in which the SST files are to be saved.
