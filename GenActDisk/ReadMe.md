@@ -1,4 +1,4 @@
-# Instroduction
+# Introduction
 This set-up is meant for simulating a single wind turbine in WRF-LES-GAD formulation. The latest WRF code can be found [here](https://github.com/a2e-mmc/WRF/tree/mmc_update_v4.3).
 
 A single domain is used with LES model and turbines parameterized using a generalized actuator disk (GAD) formulation. The turbine modeled is the NREL 5-MW turbine. 
