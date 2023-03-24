@@ -1,0 +1,197 @@
+The three subdirectories below this UNSTABLE directory contain the files to
+run both the 2-domain NESTED_LES and single-domain PERIODIC_LES simulations
+comprising the UNSTABLE case study.
+
+Subdirectory NESTED_LES contains files to run the 2-domain simulations.
+Perturbations are applied around all four lateral boundaries of 
+the nested LES domain (domain 2), with amplitudes determined by the Eckert
+number formulation, cpm_opt = 2.
+
+To execute these steps, make a directory called NESTED_LES within directory
+UNSTABLE and go there.
+
+Instructions to execute these simulations using the files in the NESTED_LES directory are as follows:
+
+1. Copy input_sounding_unstable_case_nested_les to input_sounding
+
+2. Copy namelist.input_01_01_0000_01_01_0100_nested_unstable_case_spinup_1_hour to namelist.input
+
+3. Run ideal.exe to create wrfinput_d01
+
+4. Run wrf.exe for 1 hour to spin up the nested domain. 
+
+5. Copy namelist.input_01_01_0100_01_01_0200_nested_unstable_case_production_hour_1 to namelist.input
+
+6. Run wrf.exe for one hour to generate hour 1 of production data for analysis
+
+7. Copy namelist.input_01_01_0200_01_01_0300_nested_unstable_case_production_hour_2 to namelist.input
+
+8. Run wrf.exe for one hour to generate hour 2 of production data for analysis
+
+9. Copy namelist.input_01_01_0300_01_01_0400_nested_unstable_case_production_hour_3 to namelist.input
+
+10. Run wrf.exe for one hour to generate hour 3 of production data for analysis
+
+11. Copy namelist.input_01_01_0400_01_01_0500_nested_unstable_case_production_hour_4 to namelist.input
+
+12. Run wrf.exe for one hour to generate hour 4 of production data for analysis
+
+This should generate wrfrst*, wrfout* and horizontal_slice* files for d01 and d02 each hour.
+
+Each production run took about 4 hours of wall clock time using 576 processors on a typical linux cluster.
+
+13. To use the python analysis notebooks corresponding to this case, make two additional directories
+within directory UNSTABLE/NESTED_LES
+
+   2D_hoz_slices
+
+   3D_wrfout
+
+and copy
+
+horizontal_slices_d0*_0001-01-01_01:00:00
+horizontal_slices_d0*_0001-01-01_02:00:00
+horizontal_slices_d0*_0001-01-01_03:00:00
+horizontal_slices_d0*_0001-01-01_04:00:00
+
+to
+
+2D_hoz_slices
+
+and copy
+
+   wrfout_d0*_0001-01-01_01:00:00
+   wrfout_d0*_0001-01-01_02:00:00
+   wrfout_d0*_0001-01-01_03:00:00
+   wrfout_d0*_0001-01-01_04:00:00
+
+to
+
+   3D_wrfout
+
+Set the paths to these directories in the corresponding analysis notebooks,
+and everything should "just work". Only *d02* are analyzed, but best to keep
+the files together.
+
+For the periodic LES, make two directories PERIODIC_LES_SPINUP and
+PERIODIC_LES_PRODUCTION within directory UNSTABLE.
+
+Subdirectories PERIODIC_LES_SPINUP and PERIODIC_LES_PRODUCTION here contain
+the files to run the single-domain periodic LES.
+
+Instructions to execute these simulations using the files in the PERIODIC_LES_SPINUP
+and PERIODIC_LES_PRODUCTION directories are as follows:
+
+Go to directory  PERIODIC_LES_SPINUP
+
+1. Copy input_sounding_unstable_case_periodic_les_spinup to input_sounding
+
+2. Copy namelist.input_01_01_0000_01_01_0800_periodic_unstable_case_spinup_neutral to namelist.input
+
+3. Run ideal.exe to create wrfinput_d01
+
+This workflow is broken into 8-hour simulation blocks, each of which took about 12 hours
+of wall clock time using 576 processors on a typical linux cluster. Depending on your HPC,
+you may be able to run all 48 hours of neutral spinup at once. If so, skip steps 5-14.
+However you choose to simulate the first 48 hours, when completed follow instructions
+beginning at step 15 to add the positive heat flux. 
+
+4. Run wrf.exe for the first 8 hours of spinup. 
+
+5. Copy namelist.input_01_01_0800_01_01_1600_periodic_unstable_case_spinup_neutral to namelist.input
+
+6. Run wrf.exe for the second 8 hours of spinup
+
+7. Copy namelist.input_01_01_1600_01_02_0000_periodic_unstable_case_spinup_neutral to namelist.input
+
+8. Run wrf.exe for the third 8 hours of spinup
+
+9. Copy namelist.input_01_02_0000_01_02_0800_periodic_unstable_case_spinup_neutral to namelist.input
+
+10. Run wrf.exe for the fourth 8 hours of spinup
+
+11. Copy namelist.input_01_02_0800_01_02_1600_periodic_unstable_case_spinup_neutral to namelist.input
+
+12. Run wrf.exe for the fifth 8 hours of spinup
+
+13. Copy namelist.input_01_02_1600_01_03_0000_periodic_unstable_case_spinup_neutral to namelist.input
+
+14. Run wrf.exe for the sixth 8 hours of spinup
+
+Now we add the heat flux of 100 W/m^2 for the remaining 39 hours of spinup
+
+15. Copy namelist.input_01_03_0000_01_03_0800_periodic_unstable_case_spinup_unstable to namelist.input
+
+16. Run wrf.exe for the seventh 8 hours of spinup
+
+17. Copy namelist.input_01_03_0800_01_03_1600_periodic_unstable_case_spinup_unstable to namelist.input
+
+18. Run wrf.exe for the eigth 8 hours of spinup
+
+19. Copy namelist.input_01_03_1600_01_04_0800_periodic_unstable_case_spinup_unstable to namelist.input
+
+20. Run wrf.exe for the ninth 8 hours of spinup
+
+21. Copy namelist.input_01_04_0000_01_04_0800_periodic_unstable_case_spinup_unstable to namelist.input
+
+22. Run wrf.exe for the tenth 8 hours of spinup
+
+23. Copy namelist.input_01_04_0400_01_04_1500_periodic_unstable_case_spinup_unstable to namelist.input
+
+24. Run wrf.exe for the last 7 hours of spinup (87 hours total)
+
+Go to directory PERIODIC_LES_PRODUCTION
+
+25. Copy restart file wrfrst_d01_0001-01-04_15:00:00 from PERIODIC_LES_SPINUP to here
+
+26. Copy namelist.input_01_04_1500_01_04_1600_periodic_unstable_case_production_hour_1 to namelist.input
+
+27. Run wrf.exe for one hour to generate hour 1 of production data for analysis
+
+28. Copy namelist.input_01_04_1600_01_04_1700_periodic_unstable_case_production_hour_2 to namelist.input
+
+29. Run wrf.exe for one hour to generate hour 2 of production data for analysis
+
+30. Copy namelist.input_01_04_1700_01_04_1800_periodic_unstable_case_production_hour_3 to namelist.input
+
+31. Run wrf.exe for one hour to generate hour 3 of production data for analysis
+
+32. Copy namelist.input_01_04_1800_01_04_1900_periodic_unstable_case_production_hour_4 to namelist.input
+
+33. Run wrf.exe for one hour to generate hour 4 of production data for analysis
+
+This should generate wrfrst*, wrfout* and horizontal_slice* files for d01 for each hour.
+
+Each production run took about 4 hours of wall clock time using 576 processors on a typical linux cluster.
+
+34. To use the python analysis notebooks corresponding to this case, make two additional directories
+within UNSTABLE/PERIODIC_LES_PRODUCTION
+
+   2D_hoz_slices
+
+   3D_wrfout
+
+and copy
+
+horizontal_slices_d01_0001-01-04_15:00:00
+horizontal_slices_d01_0001-01-04_16:00:00
+horizontal_slices_d01_0001-01-04_17:00:00
+horizontal_slices_d01_0001-01-04_18:00:00
+
+to
+
+2D_hoz_slices
+
+and copy
+
+   wrfout_d01_0001-01-04_15:00:00
+   wrfout_d01_0001-01-04_16:00:00
+   wrfout_d01_0001-01-04_17:00:00
+   wrfout_d01_0001-01-04_18:00:00
+
+to
+
+   3D_wrfout
+
+Se the paths to these directories in the corresponding analysis notebooks,
+and everything should "just work".
